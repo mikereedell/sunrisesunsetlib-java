@@ -52,7 +52,9 @@ public class SunriseCalculatorTest {
     @Test
     public void testGetSunTrueLongitude() {
         // If this is in degrees: 220.2133, radians: 3.8434
-        BigDecimal sunTrueLongitude = new BigDecimal(219.6959);
+        BigDecimal sunTrueLongitude = new BigDecimal(219.6959, SolarEventCalculator.MATH_CONTEXT);
+        System.out.println(sunTrueLongitude);
+        System.out.println(calc.getSunTrueLongitude());
         assertEquals(sunTrueLongitude, calc.getSunTrueLongitude());
     }
 
