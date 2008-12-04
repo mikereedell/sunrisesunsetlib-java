@@ -10,7 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- *
+ * 
  */
 public class SunriseCalculatorTest {
 
@@ -37,77 +37,88 @@ public class SunriseCalculatorTest {
     @Test
     public void testGetBaseLongitudeHour() {
         BigDecimal baseLongHour = new BigDecimal("-5.0523");
-        assertEquals(baseLongHour, calc.getBaseLongitudeHour());
+        BigDecimal actualBaseLongHour = calc.getBaseLongitudeHour();
+        assertTrue(getErrorMessage(baseLongHour, actualBaseLongHour), baseLongHour.compareTo(actualBaseLongHour) == 0);
     }
 
     @Test
     public void testGetLongitudeHourForSunrise() {
         BigDecimal longHour = new BigDecimal("306.4605");
         BigDecimal actualLongHour = calc.getLongitudeHour();
-        // TODO: Turn the message into a parameterized string to be stored elsewhere.
-        assertTrue("Expected: " + longHour + " but was: " + actualLongHour, longHour.compareTo(actualLongHour) == 0);
+        assertTrue(getErrorMessage(longHour, actualLongHour), longHour.compareTo(actualLongHour) == 0);
     }
 
     @Test
     public void testGetMeanAnomaly() {
         BigDecimal meanAnomaly = new BigDecimal("298.7585");
-        assertEquals(meanAnomaly, calc.getMeanAnomaly());
+        BigDecimal actualMeanAnomaly = calc.getMeanAnomaly();
+        assertTrue(getErrorMessage(meanAnomaly, actualMeanAnomaly), meanAnomaly.compareTo(actualMeanAnomaly) == 0);
     }
 
     @Test
     public void testGetSunTrueLongitude() {
         // If this is in degrees: 220.2133, radians: 3.8434
-        BigDecimal sunTrueLongitude = new BigDecimal("219.6959");
-        System.out.println(calc.getSunTrueLongitude());
-        assertEquals(sunTrueLongitude, calc.getSunTrueLongitude());
+        BigDecimal sunTrueLong = new BigDecimal("219.6960");
+        BigDecimal actualSunTrueLong = calc.getSunTrueLongitude();
+        assertTrue(getErrorMessage(sunTrueLong, actualSunTrueLong), sunTrueLong.compareTo(actualSunTrueLong) == 0);
     }
 
     @Test
     public void testGetSunRightAscension() {
         // Degrees: 37.7803, radians: 0.6594
         BigDecimal rightAscension = new BigDecimal("37.7803");
-        assertEquals(rightAscension, calc.getSunRightAscension());
+        BigDecimal actualRightAscension = calc.getSunRightAscension();
+        assertTrue(getErrorMessage(rightAscension, actualRightAscension), rightAscension.compareTo(actualRightAscension) == 0);
     }
 
     @Test
     public void testGetQuadrantOfRightAscension() {
-        BigDecimal rightAscension = BigDecimal.valueOf(14.5187);
-        assertEquals(rightAscension, calc.setQuadrantOfRightAscension());
+        BigDecimal rightAscension = new BigDecimal("14.5187");
+        BigDecimal actualRightAscension = calc.getQuadrantOfRightAscension();
+        assertTrue(getErrorMessage(rightAscension, actualRightAscension), rightAscension.compareTo(actualRightAscension) == 0);
     }
 
     @Test
     public void testGetRightAscensionInHours() {
-        BigDecimal rightAscensionInHours = BigDecimal.valueOf(14.4865);
-        assertEquals(rightAscensionInHours, calc.getRightAscensionInHours());
+        BigDecimal rightAscensionInHours = new BigDecimal("14.4865");
+        BigDecimal actualRightAscensionInHours = calc.getRightAscensionInHours();
+        assertTrue(getErrorMessage(rightAscensionInHours, actualRightAscensionInHours), rightAscensionInHours
+                .compareTo(actualRightAscensionInHours) == 0);
     }
 
     @Test
     public void testGetSinOfSunDeclination() {
-        BigDecimal sinOfSunDeclinationInDegrees = BigDecimal.valueOf(-0.2541);
-        assertEquals(sinOfSunDeclinationInDegrees, calc.getSinOfSunDeclination());
+        BigDecimal sinOfSunDeclination = new BigDecimal("-0.2541");
+        BigDecimal actualSinOfSunDeclination = calc.getSinOfSunDeclination();
+        assertTrue(getErrorMessage(sinOfSunDeclination, actualSinOfSunDeclination), sinOfSunDeclination
+                .compareTo(actualSinOfSunDeclination) == 0);
     }
 
     @Test
     public void testGetCosineOfSunDeclination() {
-        BigDecimal cosineOfSunDeclinationInDegrees = BigDecimal.valueOf(0.9672);
-        assertEquals(cosineOfSunDeclinationInDegrees, calc.getCosineOfSunDeclination());
+        BigDecimal cosineOfSunDec = new BigDecimal("0.9672");
+        BigDecimal actualCosineOfSunDec = calc.getCosineOfSunDeclination();
+        assertTrue(getErrorMessage(cosineOfSunDec, actualCosineOfSunDec), cosineOfSunDec.compareTo(actualCosineOfSunDec) == 0);
     }
 
     @Test
     public void testGetCosineOfSunLocalHourAngle() {
-        assertEquals(0.0794, calc.getCosineSunLocalHour().doubleValue(), 0.0);
+        BigDecimal cosSunLocalHour = new BigDecimal("0.0794");
+        BigDecimal actualCosSunLocalHour = calc.getCosineSunLocalHour();
+        assertTrue(getErrorMessage(cosSunLocalHour, actualCosSunLocalHour), cosSunLocalHour.compareTo(actualCosSunLocalHour) == 0);
     }
 
     @Test
     public void testGetSunLocalHour() {
-        BigDecimal localHour = BigDecimal.valueOf(18.3124);
-        assertEquals(localHour, calc.getSunLocalHour());
+        BigDecimal localHour = new BigDecimal("18.3124");
+        BigDecimal actualLocalHour = calc.getSunLocalHour();
+        assertEquals(getErrorMessage(localHour, actualLocalHour), localHour.compareTo(actualLocalHour) == 0);
     }
 
-    // @Test
-    // public void testGetLocalMeanTime() {
-    // BigDecimal localMeanTime = BigDecimal.valueOf();
-    // }
+//    @Test
+//    public void testGetLocalMeanTime() {
+//        BigDecimal localMeanTime = BigDecimal.valueOf();
+//    }
 
     @Test
     public void testGetUTCTime() {
@@ -121,9 +132,7 @@ public class SunriseCalculatorTest {
         assertEquals(localTime, calc.getLocalTime());
     }
 
-    @Test
-    public void testSinFunction() {
-        System.out.println(Math.sin(50.0));
-        System.out.println(Math.sin((50.0 * Math.PI) / 180.0));
+    private String getErrorMessage(BigDecimal expected, BigDecimal actual) {
+        return "Expected: " + expected + " but was: " + actual;
     }
 }

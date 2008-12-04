@@ -15,7 +15,7 @@ public class Location {
      * @param latitude
      *            the latitude, in degrees, of this location. North latitude is positive, south negative.
      * @param longitude
-     *            the longitude, in degrees of this locatio. East longitude is positive, west negative.
+     *            the longitude, in degrees of this location. East longitude is positive, west negative.
      */
     public Location(BigDecimal latitude, BigDecimal longitude) {
         this.latitude = latitude;
@@ -28,7 +28,7 @@ public class Location {
      * @param latitude
      *            the latitude, in degrees, of this location. North latitude is positive, south negative.
      * @param longitude
-     *            the longitude, in degrees of this locatio. East longitude is positive, west negative.
+     *            the longitude, in degrees of this location. East longitude is positive, west negative.
      */
     public Location(String latitude, String longitude) {
         this.latitude = new BigDecimal(latitude);

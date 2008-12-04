@@ -5,7 +5,7 @@ import java.math.RoundingMode;
 import java.util.Calendar;
 
 /**
- *
+ * 
  */
 public class SunsetCalculator extends SolarEventCalculator {
 
@@ -18,14 +18,12 @@ public class SunsetCalculator extends SolarEventCalculator {
     }
 
     protected BigDecimal getLongitudeHour() {
-        return getDayOfYear().add(
-                (BigDecimal.valueOf(18).subtract(this.getBaseLongitudeHour())).divide(BigDecimal.valueOf(24), 4,
-                        RoundingMode.HALF_EVEN));
+        return this.getLongitudeHour(18);
     }
 
     protected BigDecimal getMeanAnomaly() {
-        BigDecimal multiplier = new BigDecimal(0.9856);
-        return (multiplier.multiply(getLongitudeHour())).subtract(new BigDecimal(3.289));
+        BigDecimal multiplier = new BigDecimal("0.9856");
+        return (multiplier.multiply(getLongitudeHour())).subtract(new BigDecimal("3.289"));
     }
 
     protected BigDecimal getSunTrueLongitude() {
@@ -35,7 +33,7 @@ public class SunsetCalculator extends SolarEventCalculator {
                 .doubleValue()));
 
         BigDecimal firstPart = getMeanAnomaly().add(sinMeanAnomaly.multiply(BigDecimal.valueOf(1.916)));
-        BigDecimal secondPart = sinDoubleMeanAnomaly.multiply(BigDecimal.valueOf(0.020)).add(BigDecimal.valueOf(282.634));
+        BigDecimal secondPart = sinDoubleMeanAnomaly.multiply(new BigDecimal("0.020")).add(new BigDecimal("282.634"));
         BigDecimal trueLongitude = firstPart.add(secondPart);
 
         if (trueLongitude.doubleValue() > 360) {
@@ -49,7 +47,7 @@ public class SunsetCalculator extends SolarEventCalculator {
         BigDecimal tanL = new BigDecimal(Math.tan(sunTrueLongitudeInDeg.divide(RAD_TO_DEG, 4, RoundingMode.HALF_EVEN)
                 .doubleValue()));
 
-        BigDecimal innerParens = tanL.multiply(BigDecimal.valueOf(0.91764));
+        BigDecimal innerParens = tanL.multiply(new BigDecimal("0.91764"));
         BigDecimal rightAscension = new BigDecimal(Math.atan(innerParens.doubleValue()));
         // Convert the ascension from radians to degrees.
         rightAscension = rightAscension.multiply(RAD_TO_DEG);
@@ -69,24 +67,21 @@ public class SunsetCalculator extends SolarEventCalculator {
     }
 
     protected BigDecimal getRightAscensionInHours() {
-        return this.setQuadrantOfRightAscension().divide(BigDecimal.valueOf(15.0), 4, RoundingMode.HALF_EVEN);
+        return this.setQuadrantOfRightAscension().divide(BigDecimal.valueOf(15), 4, RoundingMode.HALF_EVEN);
     }
 
     protected BigDecimal getSinOfSunDeclination() {
         BigDecimal sinTrueLongitude = BigDecimal.valueOf(Math.sin(this.getSunTrueLongitude().divide(RAD_TO_DEG, 4,
                 RoundingMode.HALF_EVEN).doubleValue()));
-        BigDecimal sinOfDeclination = BigDecimal.valueOf(0.39782).multiply(sinTrueLongitude);
-
-        return sinOfDeclination;
-        // return sinOfDeclination.multiply(RAD_TO_DEG);
+        BigDecimal sinOfDeclination = sinTrueLongitude.multiply(new BigDecimal("0.39782"));
+        return sinOfDeclination.setScale(4, RoundingMode.HALF_EVEN);
     }
 
     protected BigDecimal getCosineOfSunDeclination() {
         BigDecimal sinOfDeclinationInRads = this.getSinOfSunDeclination().divide(RAD_TO_DEG, 4, RoundingMode.HALF_EVEN);
         BigDecimal arcSinOfSinDeclination = BigDecimal.valueOf(Math.asin(sinOfDeclinationInRads.doubleValue()));
         BigDecimal cosDeclination = BigDecimal.valueOf(Math.cos(arcSinOfSinDeclination.doubleValue()));
-        return cosDeclination;
-        // return cosDeclination.multiply(RAD_TO_DEG);
+        return cosDeclination.setScale(4, RoundingMode.HALF_EVEN);
     }
 
     protected BigDecimal getCosineSunLocalHour() {

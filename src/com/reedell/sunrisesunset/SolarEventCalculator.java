@@ -59,7 +59,14 @@ public class SolarEventCalculator {
     protected BigDecimal getBaseLongitudeHour() {
         return this.location.getLongitude().divide(BigDecimal.valueOf(15), 4, RoundingMode.HALF_EVEN);
     }
-
+    
+    protected BigDecimal getLongitudeHour(int offset) {
+        BigDecimal dividend = BigDecimal.valueOf(offset).subtract(this.getBaseLongitudeHour());
+        BigDecimal addend = dividend.divide(BigDecimal.valueOf(24), 4, RoundingMode.HALF_EVEN);
+        BigDecimal longHour = this.getDayOfYear().add(addend);
+        return longHour.setScale(4, RoundingMode.HALF_EVEN);
+    }
+    
     protected BigDecimal getArcCosineFor(BigDecimal number) {
         BigDecimal arcCosine = BigDecimal.valueOf(Math.acos(number.doubleValue()));
         return arcCosine;
