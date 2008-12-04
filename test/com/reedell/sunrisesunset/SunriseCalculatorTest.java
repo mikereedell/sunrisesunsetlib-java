@@ -1,6 +1,7 @@
 package com.reedell.sunrisesunset;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.math.BigDecimal;
 import java.util.Calendar;
@@ -35,25 +36,28 @@ public class SunriseCalculatorTest {
 
     @Test
     public void testGetBaseLongitudeHour() {
-        assertEquals(-5.0523, calc.getBaseLongitudeHour().doubleValue(), 0.0);
+        BigDecimal baseLongHour = new BigDecimal("-5.0523");
+        assertEquals(baseLongHour, calc.getBaseLongitudeHour());
     }
 
     @Test
     public void testGetLongitudeHourForSunrise() {
-        assertEquals(306.4605, calc.getLongitudeHour().doubleValue(), 0.0);
+        BigDecimal longHour = new BigDecimal("306.4605");
+        BigDecimal actualLongHour = calc.getLongitudeHour();
+        // TODO: Turn the message into a parameterized string to be stored elsewhere.
+        assertTrue("Expected: " + longHour + " but was: " + actualLongHour, longHour.compareTo(actualLongHour) == 0);
     }
 
     @Test
     public void testGetMeanAnomaly() {
-        BigDecimal meanAnomaly = new BigDecimal(298.7585);
+        BigDecimal meanAnomaly = new BigDecimal("298.7585");
         assertEquals(meanAnomaly, calc.getMeanAnomaly());
     }
 
     @Test
     public void testGetSunTrueLongitude() {
         // If this is in degrees: 220.2133, radians: 3.8434
-        BigDecimal sunTrueLongitude = new BigDecimal(219.6959, SolarEventCalculator.MATH_CONTEXT);
-        System.out.println(sunTrueLongitude);
+        BigDecimal sunTrueLongitude = new BigDecimal("219.6959");
         System.out.println(calc.getSunTrueLongitude());
         assertEquals(sunTrueLongitude, calc.getSunTrueLongitude());
     }
@@ -61,7 +65,7 @@ public class SunriseCalculatorTest {
     @Test
     public void testGetSunRightAscension() {
         // Degrees: 37.7803, radians: 0.6594
-        BigDecimal rightAscension = new BigDecimal(37.7803);
+        BigDecimal rightAscension = new BigDecimal("37.7803");
         assertEquals(rightAscension, calc.getSunRightAscension());
     }
 

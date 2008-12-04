@@ -1,7 +1,6 @@
 package com.reedell.sunrisesunset;
 
 import java.math.BigDecimal;
-import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.Calendar;
 
@@ -16,7 +15,6 @@ public class SolarEventCalculator {
     protected static final BigDecimal RAD_TO_DEG = new BigDecimal(180 / Math.PI);
     protected static final BigDecimal DEG_TO_RAD = BigDecimal.valueOf(Math.PI / 180.0);
     protected static final BigDecimal FIFTEEN_DEG_IN_RAD = BigDecimal.valueOf(Math.toRadians(15));
-    protected static final MathContext MATH_CONTEXT = new MathContext(4, RoundingMode.HALF_EVEN);
 
     /**
      * Constructs a new <code>SolarEventCalculator</code> based on the given parameters.
@@ -59,7 +57,7 @@ public class SolarEventCalculator {
     }
 
     protected BigDecimal getBaseLongitudeHour() {
-        return convertDegreesToRadians(this.location.getLongitude()).divide(FIFTEEN_DEG_IN_RAD, 4, RoundingMode.HALF_EVEN);
+        return this.location.getLongitude().divide(BigDecimal.valueOf(15), 4, RoundingMode.HALF_EVEN);
     }
 
     protected BigDecimal getArcCosineFor(BigDecimal number) {

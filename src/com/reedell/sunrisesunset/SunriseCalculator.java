@@ -18,14 +18,16 @@ public class SunriseCalculator extends SolarEventCalculator {
     }
 
     protected BigDecimal getLongitudeHour() {
-        return getDayOfYear().add(
-                (BigDecimal.valueOf(6).subtract(this.getBaseLongitudeHour())).divide(BigDecimal.valueOf(24), 4,
-                        RoundingMode.HALF_EVEN));
+        BigDecimal dividend = BigDecimal.valueOf(6).subtract(this.getBaseLongitudeHour());
+        BigDecimal addend = dividend.divide(BigDecimal.valueOf(24), 4, RoundingMode.HALF_EVEN);
+        BigDecimal longHour = this.getDayOfYear().add(addend);
+        return longHour.setScale(4, RoundingMode.HALF_EVEN);
     }
 
     protected BigDecimal getMeanAnomaly() {
-        BigDecimal multiplier = new BigDecimal(0.9856);
-        return (multiplier.multiply(getLongitudeHour())).subtract(new BigDecimal(3.289));
+        BigDecimal multiplier = new BigDecimal("0.9856");
+        BigDecimal meanAnomaly = multiplier.multiply(getLongitudeHour()).subtract(new BigDecimal("3.289"));
+        return meanAnomaly.setScale(4, RoundingMode.HALF_EVEN);
     }
 
     protected BigDecimal getSunTrueLongitude() {
@@ -41,7 +43,7 @@ public class SunriseCalculator extends SolarEventCalculator {
         if (trueLongitude.doubleValue() > 360) {
             trueLongitude = trueLongitude.subtract(BigDecimal.valueOf(360));
         }
-        return trueLongitude;
+        return trueLongitude.setScale(4, RoundingMode.HALF_EVEN);
     }
 
     protected BigDecimal getSunRightAscension() {
