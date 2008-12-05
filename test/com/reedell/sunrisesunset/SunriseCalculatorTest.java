@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.math.BigDecimal;
-import java.util.Calendar;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -12,33 +11,14 @@ import org.junit.Test;
 /**
  * 
  */
-public class SunriseCalculatorTest {
-
-    private Calendar sunriseDate;
+public class SunriseCalculatorTest extends BaseTestCase {
 
     private SunriseCalculator calc;
-
+    
     @Before
-    public void setupCalendar() {
-        // Set the date to November 1, 2008 (Day 306).
-        this.sunriseDate = Calendar.getInstance();
-        this.sunriseDate.set(Calendar.YEAR, 2008);
-        this.sunriseDate.set(Calendar.MONTH, 10);
-        this.sunriseDate.set(Calendar.DAY_OF_MONTH, 1);
-        // At a zenith of 96 Degrees (Civil) (AKA 'Twilight')
-        // Sunrise is 0604 EDT, sunset is 1729 EDT
-
-        BigDecimal latitude = BigDecimal.valueOf(39.9937).setScale(4);
-        BigDecimal longitude = BigDecimal.valueOf(-75.7850).setScale(4);
-        Location location = new Location(latitude, longitude);
-        calc = new SunriseCalculator(location, 96, this.sunriseDate);
-    }
-
-    @Test
-    public void testGetBaseLongitudeHour() {
-        BigDecimal baseLongHour = new BigDecimal("-5.0523");
-        BigDecimal actualBaseLongHour = calc.getBaseLongitudeHour();
-        assertTrue(getErrorMessage(baseLongHour, actualBaseLongHour), baseLongHour.compareTo(actualBaseLongHour) == 0);
+    public void setupCalculator() {
+        this.setup();
+        calc = new SunriseCalculator(location, 96, eventDate);
     }
 
     @Test
@@ -57,29 +37,28 @@ public class SunriseCalculatorTest {
 
     @Test
     public void testGetSunTrueLongitude() {
-        // If this is in degrees: 219.6960
-        BigDecimal sunTrueLong = new BigDecimal("219.6960");
+        BigDecimal sunTrueLong = new BigDecimal("219.6959");
         BigDecimal actualSunTrueLong = calc.getSunTrueLongitude();
         assertTrue(getErrorMessage(sunTrueLong, actualSunTrueLong), sunTrueLong.compareTo(actualSunTrueLong) == 0);
     }
 
     @Test
     public void testGetSunRightAscension() {
-        BigDecimal rightAscension = new BigDecimal("37.2977");
+        BigDecimal rightAscension = new BigDecimal("37.2965");
         BigDecimal actualRightAscension = calc.getSunRightAscension();
         assertTrue(getErrorMessage(rightAscension, actualRightAscension), rightAscension.compareTo(actualRightAscension) == 0);
     }
 
     @Test
     public void testGetQuadrantOfRightAscension() {
-        BigDecimal rightAscension = new BigDecimal("217.2977");
+        BigDecimal rightAscension = new BigDecimal("217.2965");
         BigDecimal actualRightAscension = calc.getQuadrantOfRightAscension();
         assertTrue(getErrorMessage(rightAscension, actualRightAscension), rightAscension.compareTo(actualRightAscension) == 0);
     }
 
     @Test
     public void testGetRightAscensionInHours() {
-        BigDecimal rightAscensionInHours = new BigDecimal("14.4865");
+        BigDecimal rightAscensionInHours = new BigDecimal("14.4864");
         BigDecimal actualRightAscensionInHours = calc.getRightAscensionInHours();
         assertTrue(getErrorMessage(rightAscensionInHours, actualRightAscensionInHours), rightAscensionInHours
                 .compareTo(actualRightAscensionInHours) == 0);
@@ -109,7 +88,7 @@ public class SunriseCalculatorTest {
 
     @Test
     public void testGetSunLocalHour() {
-        BigDecimal localHour = new BigDecimal("18.3032");
+        BigDecimal localHour = new BigDecimal("18.3033");
         BigDecimal actualLocalHour = calc.getSunLocalHour();
         assertTrue(getErrorMessage(localHour, actualLocalHour), localHour.compareTo(actualLocalHour) == 0);
     }
@@ -135,36 +114,10 @@ public class SunriseCalculatorTest {
         assertTrue(getErrorMessage(localTime, actualLocalTime), localTime.compareTo(actualLocalTime) == 0);
     }
 
+    @Test
     public void testGetLocalTimeAsString() {
         String localTime = "06:05";
         String actualLocalTime = calc.getLocalTimeAsString();
-        assertEquals(getErrorMessage(localTime, actualLocalTime), localTime, actualLocalTime);
-
-    }
-
-    private String getErrorMessage(Object expected, Object actual) {
-        return "Expected: " + expected + " but was: " + actual;
-    }
-
-    @Test
-    public void testGetUTCOffSet() {
-        BigDecimal utcOffSet = new BigDecimal("-5");
-        BigDecimal actualUTCOffSet = calc.getUTCOffset();
-        assertTrue(getErrorMessage(utcOffSet, actualUTCOffSet), utcOffSet.compareTo(actualUTCOffSet) == 0);
-
-        // Roll the date into a non-DST date.
-        sunriseDate.roll(Calendar.DATE, true);
-        SunriseCalculator calc2 = new SunriseCalculator(new Location("0", "0"), 96, this.sunriseDate);
-        actualUTCOffSet = calc.getUTCOffset();
-        assertTrue(getErrorMessage(utcOffSet, actualUTCOffSet), utcOffSet.compareTo(actualUTCOffSet) == 0);
-    }
-
-    @Test
-    public void testInDST() {
-        System.out.println(sunriseDate.getTimeZone().inDaylightTime(sunriseDate.getTime()));
-        System.out.println(sunriseDate.get(Calendar.ZONE_OFFSET));
-        sunriseDate.roll(Calendar.DATE, true);
-        System.out.println(sunriseDate.getTimeZone().inDaylightTime(sunriseDate.getTime()));
-        System.out.println(sunriseDate.get(Calendar.ZONE_OFFSET));
+        assertEquals(localTime, actualLocalTime);
     }
 }

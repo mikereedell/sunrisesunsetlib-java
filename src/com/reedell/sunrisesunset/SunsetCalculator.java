@@ -27,7 +27,7 @@ public class SunsetCalculator extends SolarEventCalculator {
     }
 
     protected BigDecimal getSunTrueLongitude() {
-        BigDecimal meanAnomalyInDegrees = getMeanAnomaly().multiply(RAD_TO_DEG);
+        BigDecimal meanAnomalyInDegrees = convertDegreesToRadians(getMeanAnomaly());
         BigDecimal sinMeanAnomaly = new BigDecimal(Math.sin(meanAnomalyInDegrees.doubleValue()));
         BigDecimal sinDoubleMeanAnomaly = new BigDecimal(Math.sin(meanAnomalyInDegrees.multiply(BigDecimal.valueOf(2))
                 .doubleValue()));
@@ -43,15 +43,12 @@ public class SunsetCalculator extends SolarEventCalculator {
     }
 
     protected BigDecimal getSunRightAscension() {
-        BigDecimal sunTrueLongitudeInDeg = getSunTrueLongitude();
-        BigDecimal tanL = new BigDecimal(Math.tan(sunTrueLongitudeInDeg.divide(RAD_TO_DEG, 4, RoundingMode.HALF_EVEN)
-                .doubleValue()));
+        BigDecimal trueLongInRads = this.convertDegreesToRadians(getSunTrueLongitude());
+        BigDecimal tanL = new BigDecimal(Math.tan(trueLongInRads.doubleValue()));
 
-        BigDecimal innerParens = tanL.multiply(new BigDecimal("0.91764"));
-        BigDecimal rightAscension = new BigDecimal(Math.atan(innerParens.doubleValue()));
-        // Convert the ascension from radians to degrees.
-        rightAscension = rightAscension.multiply(RAD_TO_DEG);
-        return rightAscension;
+        BigDecimal innerParens = this.convertRadiansToDegrees(tanL).multiply(new BigDecimal("0.91764"));
+        BigDecimal rightAscension = new BigDecimal(Math.atan(this.convertDegreesToRadians(innerParens).doubleValue()));
+        return this.convertRadiansToDegrees(rightAscension).setScale(4, RoundingMode.HALF_EVEN);
     }
 
     protected BigDecimal setQuadrantOfRightAscension() {
@@ -71,15 +68,15 @@ public class SunsetCalculator extends SolarEventCalculator {
     }
 
     protected BigDecimal getSinOfSunDeclination() {
-        BigDecimal sinTrueLongitude = BigDecimal.valueOf(Math.sin(this.getSunTrueLongitude().divide(RAD_TO_DEG, 4,
-                RoundingMode.HALF_EVEN).doubleValue()));
+        BigDecimal sunTrueLongInRads = convertDegreesToRadians(getSunTrueLongitude());
+        BigDecimal sinTrueLongitude = BigDecimal.valueOf(Math.sin(sunTrueLongInRads.doubleValue()));
         BigDecimal sinOfDeclination = sinTrueLongitude.multiply(new BigDecimal("0.39782"));
+
         return sinOfDeclination.setScale(4, RoundingMode.HALF_EVEN);
     }
 
     protected BigDecimal getCosineOfSunDeclination() {
-        BigDecimal sinOfDeclinationInRads = this.getSinOfSunDeclination().divide(RAD_TO_DEG, 4, RoundingMode.HALF_EVEN);
-        BigDecimal arcSinOfSinDeclination = BigDecimal.valueOf(Math.asin(sinOfDeclinationInRads.doubleValue()));
+        BigDecimal arcSinOfSinDeclination = BigDecimal.valueOf(Math.asin(this.getSinOfSunDeclination().doubleValue()));
         BigDecimal cosDeclination = BigDecimal.valueOf(Math.cos(arcSinOfSinDeclination.doubleValue()));
         return cosDeclination.setScale(4, RoundingMode.HALF_EVEN);
     }

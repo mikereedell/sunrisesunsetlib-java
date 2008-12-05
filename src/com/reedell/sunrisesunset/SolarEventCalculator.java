@@ -12,9 +12,6 @@ public class SolarEventCalculator {
 
     protected Location location;
     protected double zenith;
-    protected static final BigDecimal RAD_TO_DEG = new BigDecimal(180 / Math.PI);
-    protected static final BigDecimal DEG_TO_RAD = BigDecimal.valueOf(Math.PI / 180.0);
-    protected static final BigDecimal FIFTEEN_DEG_IN_RAD = BigDecimal.valueOf(Math.toRadians(15));
 
     /**
      * Constructs a new <code>SolarEventCalculator</code> based on the given parameters.
@@ -50,20 +47,11 @@ public class SolarEventCalculator {
 
     public BigDecimal getUTCOffset() {
         int offSetInMillis = eventDate.get(Calendar.ZONE_OFFSET);
-
-        // TimeZone timeZone = eventDate.getTimeZone();
-        // if (timeZone.inDaylightTime(eventDate.getTime())) {
-        // if (offSetInMillis < 0) {
-        // offSetInMillis = offSetInMillis - 3600000;
-        // } else {
-        // offSetInMillis = offSetInMillis + 3600000;
-        // }
-        // }
         return new BigDecimal(offSetInMillis / 3600000);
     }
 
     public BigDecimal getZenithInRadians() {
-        return BigDecimal.valueOf(Math.toRadians(this.zenith));
+        return BigDecimal.valueOf(Math.toRadians(this.zenith)).setScale(4, RoundingMode.HALF_EVEN);
     }
 
     protected BigDecimal getBaseLongitudeHour() {
@@ -77,16 +65,22 @@ public class SolarEventCalculator {
         return longHour.setScale(4, RoundingMode.HALF_EVEN);
     }
 
-    protected BigDecimal getArcCosineFor(BigDecimal number) {
-        BigDecimal arcCosine = BigDecimal.valueOf(Math.acos(number.doubleValue()));
-        return arcCosine;
+    /**
+     * Compute the arc-cosine for the given argument in radians.
+     * 
+     * @param radians
+     * @return
+     */
+    protected BigDecimal getArcCosineFor(BigDecimal radians) {
+        BigDecimal arcCosine = BigDecimal.valueOf(Math.acos(radians.doubleValue()));
+        return arcCosine.setScale(4, RoundingMode.HALF_EVEN);
     }
 
     protected BigDecimal convertRadiansToDegrees(BigDecimal radians) {
-        return radians.multiply(RAD_TO_DEG);
+        return radians.multiply(new BigDecimal(180 / Math.PI)).setScale(4, RoundingMode.HALF_EVEN);
     }
 
     protected BigDecimal convertDegreesToRadians(BigDecimal degrees) {
-        return degrees.multiply(DEG_TO_RAD);
+        return degrees.multiply(BigDecimal.valueOf(Math.PI / 180.0)).setScale(4, RoundingMode.HALF_EVEN);
     }
 }

@@ -115,12 +115,17 @@ public class SunriseCalculator extends SolarEventCalculator {
     }
 
     protected BigDecimal getLocalTime() {
-        BigDecimal utcOffset = getUTCOffset();
         return this.getUTCTime().add(getUTCOffset());
     }
 
     protected String getLocalTimeAsString() {
-
-        return null;
+        String localTime = getLocalTime().toPlainString();
+        String[] timeComponents = localTime.split("\\.");
+        String hour = (timeComponents[0].length() == 1) ? "0" + timeComponents[0] : timeComponents[0];
+        
+        BigDecimal minutes = new BigDecimal("0." + timeComponents[1]);
+        minutes = minutes.multiply(BigDecimal.valueOf(60)).setScale(0, RoundingMode.HALF_EVEN);
+        String minuteString = minutes.intValue() < 10 ? "0" + minutes.toPlainString() : minutes.toPlainString();
+        return hour + ":" + minuteString;
     }
 }
