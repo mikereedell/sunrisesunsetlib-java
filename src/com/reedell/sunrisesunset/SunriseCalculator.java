@@ -54,14 +54,14 @@ public class SunriseCalculator extends SolarEventCalculator {
 
     protected BigDecimal getQuadrantOfRightAscension() {
         BigDecimal ninety = BigDecimal.valueOf(90);
-        BigDecimal longitudeQuadrant = getSunTrueLongitude().divide(ninety, 4, RoundingMode.FLOOR);
+        BigDecimal longitudeQuadrant = getSunTrueLongitude().divide(ninety, 0, RoundingMode.FLOOR);
         longitudeQuadrant = longitudeQuadrant.multiply(ninety);
 
-        BigDecimal rightAscensionQuadrant = getSunRightAscension().divide(ninety, 4, RoundingMode.FLOOR);
+        BigDecimal rightAscensionQuadrant = getSunRightAscension().divide(ninety, 0, RoundingMode.FLOOR);
         rightAscensionQuadrant = rightAscensionQuadrant.multiply(ninety);
 
         BigDecimal augend = longitudeQuadrant.subtract(rightAscensionQuadrant);
-        return (getSunRightAscension().add(augend)).divide(BigDecimal.valueOf(15), 4, RoundingMode.HALF_EVEN);
+        return getSunRightAscension().add(augend);
     }
 
     protected BigDecimal getRightAscensionInHours() {
@@ -83,7 +83,8 @@ public class SunriseCalculator extends SolarEventCalculator {
     }
 
     protected BigDecimal getCosineSunLocalHour() {
-        BigDecimal cosineZenith = BigDecimal.valueOf(Math.cos(this.zenith));
+        BigDecimal zenithInRads = convertDegreesToRadians(BigDecimal.valueOf(this.zenith));
+        BigDecimal cosineZenith = BigDecimal.valueOf(Math.cos(zenithInRads.doubleValue()));
         BigDecimal sinLatitude = BigDecimal.valueOf(Math.sin(convertDegreesToRadians(this.location.getLatitude()).doubleValue()));
         BigDecimal cosLatitude = BigDecimal.valueOf(Math.cos(convertDegreesToRadians(this.location.getLatitude()).doubleValue()));
 
@@ -97,8 +98,8 @@ public class SunriseCalculator extends SolarEventCalculator {
 
     protected BigDecimal getSunLocalHour() {
         BigDecimal arcCosineOfCosineHourAngle = getArcCosineFor(getCosineSunLocalHour());
-        BigDecimal localHour = BigDecimal.valueOf(360).subtract(arcCosineOfCosineHourAngle);
-
+        // BigDecimal localHour = BigDecimal.valueOf(360).subtract(arcCosineOfCosineHourAngle);
+        BigDecimal localHour = BigDecimal.valueOf(360).subtract(convertRadiansToDegrees(arcCosineOfCosineHourAngle));
         return localHour.divide(BigDecimal.valueOf(15), 4, RoundingMode.HALF_EVEN);
     }
 
@@ -114,6 +115,12 @@ public class SunriseCalculator extends SolarEventCalculator {
     }
 
     protected BigDecimal getLocalTime() {
-        return this.getUTCTime().subtract(BigDecimal.valueOf(getUTCOffset()));
+        BigDecimal utcOffset = getUTCOffset();
+        return this.getUTCTime().add(getUTCOffset());
+    }
+
+    protected String getLocalTimeAsString() {
+
+        return null;
     }
 }

@@ -48,8 +48,18 @@ public class SolarEventCalculator {
         return new BigDecimal(this.eventDate.get(Calendar.DAY_OF_YEAR));
     }
 
-    public int getUTCOffset() {
-        return this.eventDate.getTimeZone().getOffset(this.eventDate.getTimeInMillis());
+    public BigDecimal getUTCOffset() {
+        int offSetInMillis = eventDate.get(Calendar.ZONE_OFFSET);
+
+        // TimeZone timeZone = eventDate.getTimeZone();
+        // if (timeZone.inDaylightTime(eventDate.getTime())) {
+        // if (offSetInMillis < 0) {
+        // offSetInMillis = offSetInMillis - 3600000;
+        // } else {
+        // offSetInMillis = offSetInMillis + 3600000;
+        // }
+        // }
+        return new BigDecimal(offSetInMillis / 3600000);
     }
 
     public BigDecimal getZenithInRadians() {
@@ -59,14 +69,14 @@ public class SolarEventCalculator {
     protected BigDecimal getBaseLongitudeHour() {
         return this.location.getLongitude().divide(BigDecimal.valueOf(15), 4, RoundingMode.HALF_EVEN);
     }
-    
+
     protected BigDecimal getLongitudeHour(int offset) {
         BigDecimal dividend = BigDecimal.valueOf(offset).subtract(this.getBaseLongitudeHour());
         BigDecimal addend = dividend.divide(BigDecimal.valueOf(24), 4, RoundingMode.HALF_EVEN);
         BigDecimal longHour = this.getDayOfYear().add(addend);
         return longHour.setScale(4, RoundingMode.HALF_EVEN);
     }
-    
+
     protected BigDecimal getArcCosineFor(BigDecimal number) {
         BigDecimal arcCosine = BigDecimal.valueOf(Math.acos(number.doubleValue()));
         return arcCosine;
