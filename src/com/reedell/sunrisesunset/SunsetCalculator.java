@@ -23,23 +23,24 @@ public class SunsetCalculator extends SolarEventCalculator {
 
     protected BigDecimal getMeanAnomaly() {
         BigDecimal multiplier = new BigDecimal("0.9856");
-        return (multiplier.multiply(getLongitudeHour())).subtract(new BigDecimal("3.289"));
+        BigDecimal meanAnomaly = multiplier.multiply(getLongitudeHour()).subtract(new BigDecimal("3.289"));
+        return meanAnomaly.setScale(4, RoundingMode.HALF_EVEN);
     }
 
     protected BigDecimal getSunTrueLongitude() {
-        BigDecimal meanAnomalyInDegrees = convertDegreesToRadians(getMeanAnomaly());
-        BigDecimal sinMeanAnomaly = new BigDecimal(Math.sin(meanAnomalyInDegrees.doubleValue()));
-        BigDecimal sinDoubleMeanAnomaly = new BigDecimal(Math.sin(meanAnomalyInDegrees.multiply(BigDecimal.valueOf(2))
-                .doubleValue()));
+        BigDecimal meanAnomalyInRads = convertDegreesToRadians(getMeanAnomaly());
+        BigDecimal sinMeanAnomaly = new BigDecimal(Math.sin(meanAnomalyInRads.doubleValue()));
+        BigDecimal sinDoubleMeanAnomaly = new BigDecimal(Math
+                .sin(meanAnomalyInRads.multiply(BigDecimal.valueOf(2)).doubleValue()));
 
-        BigDecimal firstPart = getMeanAnomaly().add(sinMeanAnomaly.multiply(BigDecimal.valueOf(1.916)));
+        BigDecimal firstPart = getMeanAnomaly().add(sinMeanAnomaly.multiply(new BigDecimal("1.916")));
         BigDecimal secondPart = sinDoubleMeanAnomaly.multiply(new BigDecimal("0.020")).add(new BigDecimal("282.634"));
         BigDecimal trueLongitude = firstPart.add(secondPart);
 
         if (trueLongitude.doubleValue() > 360) {
             trueLongitude = trueLongitude.subtract(BigDecimal.valueOf(360));
         }
-        return trueLongitude;
+        return trueLongitude.setScale(4, RoundingMode.HALF_EVEN);
     }
 
     protected BigDecimal getSunRightAscension() {
@@ -51,20 +52,20 @@ public class SunsetCalculator extends SolarEventCalculator {
         return this.convertRadiansToDegrees(rightAscension).setScale(4, RoundingMode.HALF_EVEN);
     }
 
-    protected BigDecimal setQuadrantOfRightAscension() {
+    protected BigDecimal getQuadrantOfRightAscension() {
         BigDecimal ninety = BigDecimal.valueOf(90);
-        BigDecimal longitudeQuadrant = getSunTrueLongitude().divide(ninety, 4, RoundingMode.FLOOR);
+        BigDecimal longitudeQuadrant = getSunTrueLongitude().divide(ninety, 0, RoundingMode.FLOOR);
         longitudeQuadrant = longitudeQuadrant.multiply(ninety);
 
-        BigDecimal rightAscensionQuadrant = getSunRightAscension().divide(ninety, 4, RoundingMode.FLOOR);
+        BigDecimal rightAscensionQuadrant = getSunRightAscension().divide(ninety, 0, RoundingMode.FLOOR);
         rightAscensionQuadrant = rightAscensionQuadrant.multiply(ninety);
 
         BigDecimal augend = longitudeQuadrant.subtract(rightAscensionQuadrant);
-        return (getSunRightAscension().add(augend)).divide(BigDecimal.valueOf(15), 4, RoundingMode.HALF_EVEN);
+        return getSunRightAscension().add(augend);
     }
 
     protected BigDecimal getRightAscensionInHours() {
-        return this.setQuadrantOfRightAscension().divide(BigDecimal.valueOf(15), 4, RoundingMode.HALF_EVEN);
+        return this.getQuadrantOfRightAscension().divide(BigDecimal.valueOf(15), 4, RoundingMode.HALF_EVEN);
     }
 
     protected BigDecimal getSinOfSunDeclination() {
@@ -82,20 +83,52 @@ public class SunsetCalculator extends SolarEventCalculator {
     }
 
     protected BigDecimal getCosineSunLocalHour() {
-        BigDecimal cosineZenith = BigDecimal.valueOf(Math.cos(this.zenith));
-        BigDecimal sinLatitude = BigDecimal.valueOf(Math.sin(this.location.getLatitude().doubleValue()));
-        BigDecimal cosineLatitude = BigDecimal.valueOf(Math.cos(this.location.getLatitude().doubleValue()));
+        BigDecimal zenithInRads = convertDegreesToRadians(BigDecimal.valueOf(this.zenith));
+        BigDecimal cosineZenith = BigDecimal.valueOf(Math.cos(zenithInRads.doubleValue()));
+        BigDecimal sinLatitude = BigDecimal.valueOf(Math.sin(convertDegreesToRadians(this.location.getLatitude()).doubleValue()));
+        BigDecimal cosLatitude = BigDecimal.valueOf(Math.cos(convertDegreesToRadians(this.location.getLatitude()).doubleValue()));
 
-        BigDecimal sinDeclinationTimesSinLat = this.getSinOfSunDeclination().multiply(sinLatitude);
+        BigDecimal sinDeclinationTimesSinLat = getSinOfSunDeclination().multiply(sinLatitude);
         BigDecimal top = cosineZenith.subtract(sinDeclinationTimesSinLat);
-        BigDecimal bottom = this.getCosineOfSunDeclination().multiply(cosineLatitude);
+        BigDecimal bottom = getCosineOfSunDeclination().multiply(cosLatitude);
 
         BigDecimal cosineLocalHour = top.divide(bottom, 4, RoundingMode.HALF_EVEN);
         return cosineLocalHour;
     }
 
     protected BigDecimal getSunLocalHour() {
-        BigDecimal arcCosineOfCosineHourAngle = getArcCosineFor(this.getCosineSunLocalHour());
-        return arcCosineOfCosineHourAngle.divide(BigDecimal.valueOf(15), 4, RoundingMode.HALF_EVEN);
+        BigDecimal arcCosineOfCosineHourAngle = getArcCosineFor(getCosineSunLocalHour());
+        BigDecimal localHour = convertRadiansToDegrees(arcCosineOfCosineHourAngle);
+        return localHour.divide(BigDecimal.valueOf(15), 4, RoundingMode.HALF_EVEN);
+    }
+
+    protected BigDecimal getLocalMeanTime() {
+        BigDecimal innerParens = getLongitudeHour().multiply(new BigDecimal("0.06571"));
+        BigDecimal localMeanTime = getSunLocalHour().add(getRightAscensionInHours()).subtract(innerParens);
+        localMeanTime = localMeanTime.subtract(new BigDecimal("6.622"));
+        return localMeanTime.setScale(4, RoundingMode.HALF_EVEN);
+    }
+
+    protected BigDecimal getUTCTime() {
+        BigDecimal utcTime = getLocalMeanTime().subtract(getBaseLongitudeHour());
+        if (utcTime.doubleValue() < 0) {
+            return utcTime.add(BigDecimal.valueOf(24));
+        }
+        return utcTime;
+    }
+
+    protected BigDecimal getLocalTime() {
+        return this.getUTCTime().add(getUTCOffset());
+    }
+
+    protected String getLocalTimeAsString() {
+        String localTime = getLocalTime().toPlainString();
+        String[] timeComponents = localTime.split("\\.");
+        String hour = (timeComponents[0].length() == 1) ? "0" + timeComponents[0] : timeComponents[0];
+
+        BigDecimal minutes = new BigDecimal("0." + timeComponents[1]);
+        minutes = minutes.multiply(BigDecimal.valueOf(60)).setScale(0, RoundingMode.HALF_EVEN);
+        String minuteString = minutes.intValue() < 10 ? "0" + minutes.toPlainString() : minutes.toPlainString();
+        return hour + ":" + minuteString;
     }
 }

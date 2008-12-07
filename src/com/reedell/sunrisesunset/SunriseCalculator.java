@@ -98,7 +98,6 @@ public class SunriseCalculator extends SolarEventCalculator {
 
     protected BigDecimal getSunLocalHour() {
         BigDecimal arcCosineOfCosineHourAngle = getArcCosineFor(getCosineSunLocalHour());
-        // BigDecimal localHour = BigDecimal.valueOf(360).subtract(arcCosineOfCosineHourAngle);
         BigDecimal localHour = BigDecimal.valueOf(360).subtract(convertRadiansToDegrees(arcCosineOfCosineHourAngle));
         return localHour.divide(BigDecimal.valueOf(15), 4, RoundingMode.HALF_EVEN);
     }
@@ -122,7 +121,7 @@ public class SunriseCalculator extends SolarEventCalculator {
         String localTime = getLocalTime().toPlainString();
         String[] timeComponents = localTime.split("\\.");
         String hour = (timeComponents[0].length() == 1) ? "0" + timeComponents[0] : timeComponents[0];
-        
+
         BigDecimal minutes = new BigDecimal("0." + timeComponents[1]);
         minutes = minutes.multiply(BigDecimal.valueOf(60)).setScale(0, RoundingMode.HALF_EVEN);
         String minuteString = minutes.intValue() < 10 ? "0" + minutes.toPlainString() : minutes.toPlainString();

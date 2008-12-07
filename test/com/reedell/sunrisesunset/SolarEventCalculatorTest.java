@@ -2,7 +2,6 @@ package com.reedell.sunrisesunset;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.math.BigDecimal;
 import java.util.Calendar;
@@ -56,7 +55,9 @@ public class SolarEventCalculatorTest extends BaseTestCase {
 
     @Test
     public void testGetArcCosineFor() {
-        fail("Not yet implemented");
+        BigDecimal arcCosZero = new BigDecimal("1.5708");
+        BigDecimal actualArcCosZero = calc.getArcCosineFor(BigDecimal.ZERO);
+        assertTrue(getErrorMessage(arcCosZero, actualArcCosZero), arcCosZero.compareTo(actualArcCosZero) == 0);
     }
 
     @Test
@@ -64,7 +65,7 @@ public class SolarEventCalculatorTest extends BaseTestCase {
         BigDecimal one = BigDecimal.valueOf(1);
         BigDecimal degree = calc.convertRadiansToDegrees(BigDecimal.valueOf(Math.PI / 180));
         assertTrue(getErrorMessage(one, degree), one.compareTo(degree) == 0);
-        
+
     }
 
     @Test
