@@ -117,7 +117,7 @@ public class SunsetCalculator extends SolarEventCalculator {
     }
 
     protected BigDecimal getLocalTime() {
-        return this.getUTCTime().add(getUTCOffset());
+        return this.getUTCTime().add(getUTCOffSet());
     }
 
     protected String getLocalTimeAsString() {

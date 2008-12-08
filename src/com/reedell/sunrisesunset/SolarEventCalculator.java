@@ -42,26 +42,22 @@ public class SolarEventCalculator {
     }
 
     public BigDecimal getDayOfYear() {
-        return new BigDecimal(this.eventDate.get(Calendar.DAY_OF_YEAR));
+        return new BigDecimal(eventDate.get(Calendar.DAY_OF_YEAR));
     }
 
-    public BigDecimal getUTCOffset() {
+    public BigDecimal getUTCOffSet() {
         int offSetInMillis = eventDate.get(Calendar.ZONE_OFFSET);
         return new BigDecimal(offSetInMillis / 3600000);
     }
 
-    public BigDecimal getZenithInRadians() {
-        return setScale(BigDecimal.valueOf(Math.toRadians(this.zenith)));
-    }
-
     protected BigDecimal getBaseLongitudeHour() {
-        return divideBy(this.location.getLongitude(), BigDecimal.valueOf(15));
+        return divideBy(location.getLongitude(), BigDecimal.valueOf(15));
     }
 
     protected BigDecimal getLongitudeHour(int offset) {
-        BigDecimal dividend = BigDecimal.valueOf(offset).subtract(this.getBaseLongitudeHour());
-        BigDecimal addend = this.divideBy(dividend, BigDecimal.valueOf(24));
-        BigDecimal longHour = this.getDayOfYear().add(addend);
+        BigDecimal dividend = BigDecimal.valueOf(offset).subtract(getBaseLongitudeHour());
+        BigDecimal addend = divideBy(dividend, BigDecimal.valueOf(24));
+        BigDecimal longHour = getDayOfYear().add(addend);
         return setScale(longHour);
     }
 
@@ -116,10 +112,10 @@ public class SolarEventCalculator {
     }
 
     protected BigDecimal getCosineSunLocalHour(BigDecimal sinSunDeclination, BigDecimal cosineSunDeclination) {
-        BigDecimal zenithInRads = convertDegreesToRadians(BigDecimal.valueOf(this.zenith));
+        BigDecimal zenithInRads = convertDegreesToRadians(BigDecimal.valueOf(zenith));
         BigDecimal cosineZenith = BigDecimal.valueOf(Math.cos(zenithInRads.doubleValue()));
-        BigDecimal sinLatitude = BigDecimal.valueOf(Math.sin(convertDegreesToRadians(this.location.getLatitude()).doubleValue()));
-        BigDecimal cosLatitude = BigDecimal.valueOf(Math.cos(convertDegreesToRadians(this.location.getLatitude()).doubleValue()));
+        BigDecimal sinLatitude = BigDecimal.valueOf(Math.sin(convertDegreesToRadians(location.getLatitude()).doubleValue()));
+        BigDecimal cosLatitude = BigDecimal.valueOf(Math.cos(convertDegreesToRadians(location.getLatitude()).doubleValue()));
 
         BigDecimal sinDeclinationTimesSinLat = sinSunDeclination.multiply(sinLatitude);
         BigDecimal dividend = cosineZenith.subtract(sinDeclinationTimesSinLat);
@@ -135,12 +131,9 @@ public class SolarEventCalculator {
         return setScale(localMeanTime);
     }
 
-    protected BigDecimal getUTCTime(BigDecimal localMeanTime) {
-        return localMeanTime.subtract(getBaseLongitudeHour());
-    }
-
-    protected BigDecimal getLocalTime(BigDecimal utcTime) {
-        return utcTime.add(getUTCOffset());
+    protected BigDecimal getLocalTime(BigDecimal localMeanTime) {
+        BigDecimal utcTime = localMeanTime.subtract(getBaseLongitudeHour());
+        return utcTime.add(getUTCOffSet());
     }
 
     protected String getLocalTimeAsString(BigDecimal localTime) {
@@ -153,6 +146,8 @@ public class SolarEventCalculator {
         String minuteString = minutes.intValue() < 10 ? "0" + minutes.toPlainString() : minutes.toPlainString();
         return hour + ":" + minuteString;
     }
+
+    /** ******* UTILITY METHODS (Should probably go somewhere else. ***************** */
 
     /**
      * Compute the arc-cosine for the given argument in radians.
