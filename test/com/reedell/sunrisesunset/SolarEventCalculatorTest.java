@@ -23,7 +23,7 @@ public class SolarEventCalculatorTest extends BaseTestCase {
     public void testGetDayOfYear() {
         BigDecimal dayOfYear = BigDecimal.valueOf(306);
         BigDecimal actualDayOfYear = calc.getDayOfYear();
-        assertTrue(getErrorMessage(dayOfYear, actualDayOfYear), dayOfYear.compareTo(actualDayOfYear) == 0);
+        assertTrue(getMessage(dayOfYear, actualDayOfYear), dayOfYear.compareTo(actualDayOfYear) == 0);
     }
 
     @Test
@@ -43,28 +43,28 @@ public class SolarEventCalculatorTest extends BaseTestCase {
     public void testGetZenithInRadians() {
         BigDecimal zenithInRads = new BigDecimal("1.6755");
         BigDecimal actualZenithInRads = calc.getZenithInRadians();
-        assertTrue(getErrorMessage(zenithInRads, actualZenithInRads), zenithInRads.compareTo(actualZenithInRads) == 0);
+        assertTrue(getMessage(zenithInRads, actualZenithInRads), zenithInRads.compareTo(actualZenithInRads) == 0);
     }
 
     @Test
     public void testGetBaseLongitudeHour() {
         BigDecimal baseLongHour = new BigDecimal("-5.0523");
         BigDecimal actualBaseLongHour = calc.getBaseLongitudeHour();
-        assertTrue(getErrorMessage(baseLongHour, actualBaseLongHour), baseLongHour.compareTo(actualBaseLongHour) == 0);
+        assertTrue(getMessage(baseLongHour, actualBaseLongHour), baseLongHour.compareTo(actualBaseLongHour) == 0);
     }
 
     @Test
     public void testGetArcCosineFor() {
         BigDecimal arcCosZero = new BigDecimal("1.5708");
         BigDecimal actualArcCosZero = calc.getArcCosineFor(BigDecimal.ZERO);
-        assertTrue(getErrorMessage(arcCosZero, actualArcCosZero), arcCosZero.compareTo(actualArcCosZero) == 0);
+        assertTrue(getMessage(arcCosZero, actualArcCosZero), arcCosZero.compareTo(actualArcCosZero) == 0);
     }
 
     @Test
     public void testConvertRadiansToDegrees() {
         BigDecimal one = BigDecimal.valueOf(1);
         BigDecimal degree = calc.convertRadiansToDegrees(BigDecimal.valueOf(Math.PI / 180));
-        assertTrue(getErrorMessage(one, degree), one.compareTo(degree) == 0);
+        assertTrue(getMessage(one, degree), one.compareTo(degree) == 0);
 
     }
 
@@ -72,6 +72,6 @@ public class SolarEventCalculatorTest extends BaseTestCase {
     public void testConvertDegreesToRadians() {
         BigDecimal one = BigDecimal.valueOf(1);
         BigDecimal radian = calc.convertDegreesToRadians(BigDecimal.valueOf(180 / Math.PI));
-        assertTrue(getErrorMessage(one, radian), one.compareTo(radian) == 0);
+        assertTrue(getMessage(one, radian), one.compareTo(radian) == 0);
     }
 }

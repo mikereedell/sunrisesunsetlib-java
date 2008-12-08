@@ -43,25 +43,9 @@ public class Location {
     }
 
     /**
-     * @param latitude
-     *            the latitude to set
-     */
-    public void setLatitude(BigDecimal latitude) {
-        this.latitude = latitude;
-    }
-
-    /**
      * @return the longitude
      */
     public BigDecimal getLongitude() {
         return longitude;
-    }
-
-    /**
-     * @param longitude
-     *            the longitude to set
-     */
-    public void setLongitude(BigDecimal longitude) {
-        this.longitude = longitude;
     }
 }
