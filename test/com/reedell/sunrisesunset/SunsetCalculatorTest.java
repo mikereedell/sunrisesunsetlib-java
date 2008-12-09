@@ -11,8 +11,6 @@ import org.junit.Test;
 
 public class SunsetCalculatorTest extends BaseTestCase {
 
-    private Calendar sunriseDate;
-
     private SunsetCalculator calc;
 
     @Before

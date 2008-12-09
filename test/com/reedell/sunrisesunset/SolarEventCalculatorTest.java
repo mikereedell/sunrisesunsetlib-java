@@ -39,56 +39,47 @@ public class SolarEventCalculatorTest extends BaseTestCase {
         assertEquals(utcOffSet, actualUTCOffSet);
     }
 
-    @Test
-    public void testGetLongitudeHourForSunrise() {
-        BigDecimal longHour = new BigDecimal("306.4605");
-        BigDecimal actualLongHour = calc.getLongitudeHour(6);
-        assertTrue(getMessage(longHour, actualLongHour), longHour.compareTo(actualLongHour) == 0);
-    }
-    
-    @Test
-    public void testGetLongitudeHourForSunset() {
-        BigDecimal longHour = new BigDecimal("306.9605");
-        BigDecimal actualLongHour = calc.getLongitudeHour(18);
-        assertTrue(getMessage(longHour, actualLongHour), longHour.compareTo(actualLongHour) == 0);
-    }
-    
-    @Test
-    public void testGetSunRightAscension() {
-        BigDecimal rightAscension = new BigDecimal("14.4864");
-        BigDecimal actualRightAscension = calc.getRightAscension(new BigDecimal("219.6959"));
-        assertTrue(getMessage(rightAscension, actualRightAscension), rightAscension.compareTo(actualRightAscension) == 0);
-    }
-    
-    @Test
     public void testGetBaseLongitudeHour() {
         BigDecimal baseLongHour = new BigDecimal("-5.0523");
         BigDecimal actualBaseLongHour = calc.getBaseLongitudeHour();
         assertTrue(getMessage(baseLongHour, actualBaseLongHour), baseLongHour.compareTo(actualBaseLongHour) == 0);
     }
 
+//    @Test
+//    public void testGetLongitudeHourForSunrise() {
+//        BigDecimal longHour = new BigDecimal("306.4605");
+//        BigDecimal actualLongHour = calc.getLongitudeHour();
+//        assertTrue(getMessage(longHour, actualLongHour), longHour.compareTo(actualLongHour) == 0);
+//    }
+
+//    @Test
+//    public void testGetLongitudeHourForSunset() {
+//        BigDecimal longHour = new BigDecimal("306.9605");
+//        BigDecimal actualLongHour = calc.getLongitudeHour();
+//        assertTrue(getMessage(longHour, actualLongHour), longHour.compareTo(actualLongHour) == 0);
+//    }
+
     @Test
-    public void testGetSinOfSunDeclination() {
-        BigDecimal sinOfSunDeclination = new BigDecimal("-0.2541");
-        BigDecimal actualSinOfSunDeclination = calc.getSinOfSunDeclination(new BigDecimal("219.6959"));
-        assertTrue(getMessage(sinOfSunDeclination, actualSinOfSunDeclination), sinOfSunDeclination
-                .compareTo(actualSinOfSunDeclination) == 0);
+    public void testGetMeanAnomaly() {
+        BigDecimal meanAnomaly = new BigDecimal("298.7585");
+        BigDecimal actualMeanAnomaly = calc.getMeanAnomaly(new BigDecimal("306.4605"));
+        assertTrue(getMessage(meanAnomaly, actualMeanAnomaly), meanAnomaly.compareTo(actualMeanAnomaly) == 0);
     }
-    
+
     @Test
-    public void testGetCosineOfSunDeclination() {
-        BigDecimal cosineOfSunDec = new BigDecimal("0.9672");
-        BigDecimal actualCosineOfSunDec = calc.getCosineOfSunDeclination(new BigDecimal("-0.2541"));
-        assertTrue(getMessage(cosineOfSunDec, actualCosineOfSunDec), cosineOfSunDec.compareTo(actualCosineOfSunDec) == 0);
+    public void testGetSunTrueLongitude() {
+        BigDecimal sunTrueLong = new BigDecimal("219.6959");
+        BigDecimal actualSunTrueLong = calc.getSunTrueLongitude(new BigDecimal("298.7585"));
+        assertTrue(getMessage(sunTrueLong, actualSunTrueLong), sunTrueLong.compareTo(actualSunTrueLong) == 0);
     }
-    
+
     @Test
-    public void testGetCosineOfSunLocalHourAngle() {
-        BigDecimal cosSunLocalHour = new BigDecimal("0.0793");
-        BigDecimal actualCosSunLocalHour = calc.getCosineSunLocalHour(new BigDecimal("-0.2541"), new BigDecimal("0.9672"));
-        assertTrue(getMessage(cosSunLocalHour, actualCosSunLocalHour), cosSunLocalHour.compareTo(actualCosSunLocalHour) == 0);
+    public void testGetLocalMeanTime() {
+        BigDecimal localMeanTime = new BigDecimal("6.0302");
+        BigDecimal actualLocalMeanTime = calc.getLocalMeanTime(new BigDecimal("306.4605"), new BigDecimal("219.6959"), true);
+        assertTrue(getMessage(localMeanTime, actualLocalMeanTime), localMeanTime.compareTo(actualLocalMeanTime) == 0);
     }
-    
+
     @Test
     public void testGetLocalTime() {
         BigDecimal localTime = new BigDecimal("6.0825");
@@ -101,20 +92,6 @@ public class SolarEventCalculatorTest extends BaseTestCase {
         String localTime = "06:05";
         String actualLocalTime = calc.getLocalTimeAsString(new BigDecimal("6.0825"));
         assertEquals(localTime, actualLocalTime);
-    }
-    
-    @Test
-    public void testGetMeanAnomaly() {
-        BigDecimal meanAnomaly = new BigDecimal("298.7585");
-        BigDecimal actualMeanAnomaly = calc.getMeanAnomaly(new BigDecimal("306.4605"));
-        assertTrue(getMessage(meanAnomaly, actualMeanAnomaly), meanAnomaly.compareTo(actualMeanAnomaly) == 0);
-    }
-    
-    @Test
-    public void testGetSunTrueLongitude() {
-        BigDecimal sunTrueLong = new BigDecimal("219.6959");
-        BigDecimal actualSunTrueLong = calc.getSunTrueLongitude(new BigDecimal("298.7585"));
-        assertTrue(getMessage(sunTrueLong, actualSunTrueLong), sunTrueLong.compareTo(actualSunTrueLong) == 0);
     }
 
     @Test

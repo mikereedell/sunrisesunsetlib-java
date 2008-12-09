@@ -30,11 +30,4 @@ public class SunriseCalculatorTest extends BaseTestCase {
         String localSunriseTime = "06:05";
         assertEquals(localSunriseTime, calc.computeSunriseTime());
     }
-
-    @Test
-    public void testGetLocalMeanTime() {
-        BigDecimal localMeanTime = new BigDecimal("6.0302");
-        BigDecimal actualLocalMeanTime = calc.getLocalMeanTime();
-        assertTrue(getMessage(localMeanTime, actualLocalMeanTime), localMeanTime.compareTo(actualLocalMeanTime) == 0);
-    }
 }
