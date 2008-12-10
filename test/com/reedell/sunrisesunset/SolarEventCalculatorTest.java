@@ -39,30 +39,17 @@ public class SolarEventCalculatorTest extends BaseTestCase {
         assertEquals(utcOffSet, actualUTCOffSet);
     }
 
+    @Test
     public void testGetBaseLongitudeHour() {
         BigDecimal baseLongHour = new BigDecimal("-5.0523");
         BigDecimal actualBaseLongHour = calc.getBaseLongitudeHour();
         assertTrue(getMessage(baseLongHour, actualBaseLongHour), baseLongHour.compareTo(actualBaseLongHour) == 0);
     }
 
-//    @Test
-//    public void testGetLongitudeHourForSunrise() {
-//        BigDecimal longHour = new BigDecimal("306.4605");
-//        BigDecimal actualLongHour = calc.getLongitudeHour();
-//        assertTrue(getMessage(longHour, actualLongHour), longHour.compareTo(actualLongHour) == 0);
-//    }
-
-//    @Test
-//    public void testGetLongitudeHourForSunset() {
-//        BigDecimal longHour = new BigDecimal("306.9605");
-//        BigDecimal actualLongHour = calc.getLongitudeHour();
-//        assertTrue(getMessage(longHour, actualLongHour), longHour.compareTo(actualLongHour) == 0);
-//    }
-
     @Test
     public void testGetMeanAnomaly() {
         BigDecimal meanAnomaly = new BigDecimal("298.7585");
-        BigDecimal actualMeanAnomaly = calc.getMeanAnomaly(new BigDecimal("306.4605"));
+        BigDecimal actualMeanAnomaly = calc.getMeanAnomaly();
         assertTrue(getMessage(meanAnomaly, actualMeanAnomaly), meanAnomaly.compareTo(actualMeanAnomaly) == 0);
     }
 
@@ -76,7 +63,7 @@ public class SolarEventCalculatorTest extends BaseTestCase {
     @Test
     public void testGetLocalMeanTime() {
         BigDecimal localMeanTime = new BigDecimal("6.0302");
-        BigDecimal actualLocalMeanTime = calc.getLocalMeanTime(new BigDecimal("306.4605"), new BigDecimal("219.6959"), true);
+        BigDecimal actualLocalMeanTime = calc.getLocalMeanTime(new BigDecimal("219.6959"), true);
         assertTrue(getMessage(localMeanTime, actualLocalMeanTime), localMeanTime.compareTo(actualLocalMeanTime) == 0);
     }
 

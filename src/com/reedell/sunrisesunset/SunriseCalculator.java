@@ -18,8 +18,7 @@ public class SunriseCalculator extends SolarEventCalculator {
     }
 
     public BigDecimal computeSunrise() {
-        BigDecimal lngHour = getLongitudeHour(6);
-        BigDecimal meanAnomaly = getMeanAnomaly(lngHour);
+        BigDecimal meanAnomaly = getMeanAnomaly();
         BigDecimal sunTrueLong = getSunTrueLongitude(meanAnomaly);
 
         BigDecimal localMeanTime = getLocalMeanTime(sunTrueLong, true);

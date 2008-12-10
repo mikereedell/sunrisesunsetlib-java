@@ -43,6 +43,12 @@ public class SolarEventCalculator {
         this.isSunrise = true;
     }
 
+    /**
+     * Computes the base longitude hour, lngHour in the algorithm.
+     * 
+     * @return the longitude of the location of the solar event divided by 15 (deg/hour), in
+     *         <code>BigDecimal</code> form.
+     */
     protected BigDecimal getBaseLongitudeHour() {
         return divideBy(location.getLongitude(), BigDecimal.valueOf(15));
     }
@@ -54,6 +60,11 @@ public class SolarEventCalculator {
         return setScale(longHour);
     }
 
+    /**
+     * Computes the longitude time, t in the algorithm.
+     * 
+     * @return longitudinal time in <code>BigDecimal</code> form.
+     */
     private BigDecimal getLongitudeHour() {
         int offset = 18;
         if (isSunrise) {
@@ -65,11 +76,24 @@ public class SolarEventCalculator {
         return setScale(longHour);
     }
 
-    protected BigDecimal getMeanAnomaly(BigDecimal longitudeHour) {
-        BigDecimal meanAnomaly = multiplyBy(new BigDecimal("0.9856"), longitudeHour).subtract(new BigDecimal("3.289"));
+    /**
+     * Computes the mean anomaly of the Sun, M in the algorithm.
+     * 
+     * @return the suns mean anomaly, M, in <code>BigDecimal</code> form.
+     */
+    protected BigDecimal getMeanAnomaly() {
+        BigDecimal meanAnomaly = multiplyBy(new BigDecimal("0.9856"), getLongitudeHour()).subtract(new BigDecimal("3.289"));
         return setScale(meanAnomaly);
     }
 
+    /**
+     * Computes the true longitude of the sun, L in the algorithm, at the give location, adjusted to fit in
+     * the range [0-360].
+     * 
+     * @param meanAnomaly
+     *            the suns mean anomaly.
+     * @return the suns true longitude, in <code>BigDecimal</code> form.
+     */
     protected BigDecimal getSunTrueLongitude(BigDecimal meanAnomaly) {
         BigDecimal sinMeanAnomaly = new BigDecimal(Math.sin(convertDegreesToRadians(meanAnomaly).doubleValue()));
         BigDecimal sinDoubleMeanAnomaly = new BigDecimal(Math.sin(multiplyBy(convertDegreesToRadians(meanAnomaly),
@@ -140,11 +164,6 @@ public class SolarEventCalculator {
         return divideBy(localHour, BigDecimal.valueOf(15));
     }
 
-    /** possible hingepoint for a call into the SunriseCalculator from SolarEventCalculator? */
-    // protected BigDecimal getLocalMeanTime() {
-    // return getLocalMeanTime(getLongitudeHour(6), new BigDecimal("14.4864"), getSunLocalHour(new
-    // BigDecimal("0.0793"), Boolean.TRUE));
-    // }
     protected BigDecimal getLocalMeanTime(BigDecimal sunTrueLong, Boolean isSunrise) {
         BigDecimal rightAscension = this.getRightAscension(sunTrueLong);
         BigDecimal sunLocalHour = this.getSunLocalHour(sunTrueLong, isSunrise);
@@ -160,6 +179,13 @@ public class SolarEventCalculator {
         return utcTime.add(getUTCOffSet());
     }
 
+    /**
+     * Returns the local rise/set time in the form HH:MM.
+     * 
+     * @param localTime
+     *            <code>BigDecimal</code> representation of the local rise/set time.
+     * @return <code>String</code> representation of the local rise/set time in HH:MM format.
+     */
     protected String getLocalTimeAsString(BigDecimal localTime) {
         String[] timeComponents = localTime.toPlainString().split("\\.");
         String hour = (timeComponents[0].length() == 1) ? "0" + timeComponents[0] : timeComponents[0];
@@ -181,12 +207,6 @@ public class SolarEventCalculator {
         return new BigDecimal(offSetInMillis / 3600000);
     }
 
-    /**
-     * Compute the arc-cosine for the given argument in radians.
-     * 
-     * @param radians
-     * @return
-     */
     protected BigDecimal getArcCosineFor(BigDecimal radians) {
         BigDecimal arcCosine = BigDecimal.valueOf(Math.acos(radians.doubleValue()));
         return setScale(arcCosine);
