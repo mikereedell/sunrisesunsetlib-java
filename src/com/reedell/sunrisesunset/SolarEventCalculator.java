@@ -8,7 +8,7 @@ import java.util.Calendar;
  * Parent class of the Sunrise and Sunset calculator classes.
  */
 public class SolarEventCalculator {
-    private Boolean isSunrise;
+    private Boolean isSunrise = Boolean.TRUE;
     protected Calendar eventDate;
 
     protected Location location;
@@ -40,9 +40,28 @@ public class SolarEventCalculator {
         this.location = location;
         this.zenith = zenith;
         this.eventDate = eventDate;
-        this.isSunrise = true;
     }
 
+    public String getSunsetTime() {
+        this.isSunrise = false;
+        BigDecimal meanAnomaly = getMeanAnomaly();
+        BigDecimal sunTrueLong = getSunTrueLongitude(meanAnomaly);
+
+        BigDecimal localMeanTime = getLocalMeanTime(sunTrueLong);
+        BigDecimal localTime = getLocalTime(localMeanTime);
+        return getLocalTimeAsString(localTime);
+    }
+    
+    public String computeSunriseTime() {
+        this.isSunrise = true;
+        BigDecimal meanAnomaly = getMeanAnomaly();
+        BigDecimal sunTrueLong = getSunTrueLongitude(meanAnomaly);
+
+        BigDecimal localMeanTime = getLocalMeanTime(sunTrueLong);
+        BigDecimal localTime = getLocalTime(localMeanTime);
+        return getLocalTimeAsString(localTime);
+    }
+    
     /**
      * Computes the base longitude hour, lngHour in the algorithm.
      * 
@@ -87,7 +106,7 @@ public class SolarEventCalculator {
     }
 
     /**
-     * Computes the true longitude of the sun, L in the algorithm, at the give location, adjusted to fit in
+     * Computes the true longitude of the sun, L in the algorithm, at the given location, adjusted to fit in
      * the range [0-360].
      * 
      * @param meanAnomaly
@@ -109,6 +128,11 @@ public class SolarEventCalculator {
         return setScale(trueLongitude);
     }
 
+    /**
+     * Computes the suns right ascension, RA in the algorithm, adjusting for the quadrant of L and turning it into degree-hours.
+     * @param sunTrueLong Suns true longitude, in <code>BigDecimal</code>
+     * @return suns right ascension in degree-hours, in <code>BigDecimal</code> form.
+     */
     private BigDecimal getRightAscension(BigDecimal sunTrueLong) {
         BigDecimal tanL = new BigDecimal(Math.tan(convertDegreesToRadians(sunTrueLong).doubleValue()));
 
@@ -164,7 +188,7 @@ public class SolarEventCalculator {
         return divideBy(localHour, BigDecimal.valueOf(15));
     }
 
-    protected BigDecimal getLocalMeanTime(BigDecimal sunTrueLong, Boolean isSunrise) {
+    protected BigDecimal getLocalMeanTime(BigDecimal sunTrueLong) {
         BigDecimal rightAscension = this.getRightAscension(sunTrueLong);
         BigDecimal sunLocalHour = this.getSunLocalHour(sunTrueLong, isSunrise);
 

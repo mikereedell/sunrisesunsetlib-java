@@ -63,7 +63,7 @@ public class SolarEventCalculatorTest extends BaseTestCase {
     @Test
     public void testGetLocalMeanTime() {
         BigDecimal localMeanTime = new BigDecimal("6.0302");
-        BigDecimal actualLocalMeanTime = calc.getLocalMeanTime(new BigDecimal("219.6959"), true);
+        BigDecimal actualLocalMeanTime = calc.getLocalMeanTime(new BigDecimal("219.6959"));
         assertTrue(getMessage(localMeanTime, actualLocalMeanTime), localMeanTime.compareTo(actualLocalMeanTime) == 0);
     }
 
@@ -79,6 +79,12 @@ public class SolarEventCalculatorTest extends BaseTestCase {
         String localTime = "06:05";
         String actualLocalTime = calc.getLocalTimeAsString(new BigDecimal("6.0825"));
         assertEquals(localTime, actualLocalTime);
+    }
+    
+    @Test
+    public void testComputeSunriseTime() {
+        String localSunriseTime = "06:05";
+        assertEquals(localSunriseTime, calc.computeSunriseTime());
     }
 
     @Test
