@@ -3,6 +3,7 @@ package com.reedell.sunrisesunset;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Calendar;
+import java.util.TimeZone;
 
 /**
  * Parent class of the Sunrise and Sunset calculator classes.
@@ -199,7 +200,15 @@ public class SolarEventCalculator {
         if (utcTime.doubleValue() < 0) {
             utcTime = utcTime.add(BigDecimal.valueOf(24));
         }
-        return utcTime.add(getUTCOffSet());
+        return adjustForDST(utcTime.add(getUTCOffSet()));
+    }
+
+    private BigDecimal adjustForDST(BigDecimal localMeanTime) {
+        TimeZone timeZone = this.eventDate.getTimeZone();
+        if (timeZone.inDaylightTime(this.eventDate.getTime())) {
+            localMeanTime = localMeanTime.add(BigDecimal.ONE);
+        }
+        return localMeanTime;
     }
 
     /**

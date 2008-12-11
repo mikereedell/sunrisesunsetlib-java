@@ -16,7 +16,7 @@ public class BaseTestCase {
         eventDate.set(Calendar.MONTH, 10);
         eventDate.set(Calendar.DAY_OF_MONTH, 1);
         // At a zenith of 96 Degrees (Civil) (AKA 'Twilight')
-        // Sunrise is 0604 EDT, sunset is 1729 EDT
+        // Sunrise is 0704 EDT, sunset is 1829 EDT
 
         BigDecimal latitude = BigDecimal.valueOf(39.9937).setScale(4);
         BigDecimal longitude = BigDecimal.valueOf(-75.7850).setScale(4);

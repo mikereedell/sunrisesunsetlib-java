@@ -83,13 +83,13 @@ public class SolarEventCalculatorTest extends BaseTestCase {
 
     @Test
     public void testComputeSunriseTime() {
-        String localSunriseTime = "06:05";
+        String localSunriseTime = "07:05";
         assertEquals(localSunriseTime, calc.computeSunriseTime());
     }
 
     @Test
     public void testComputeSunsetTime() {
-        String localSunsetTime = "17:28";
+        String localSunsetTime = "18:28";
         assertEquals(localSunsetTime, calc.computeSunsetTime());
     }
 
