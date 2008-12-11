@@ -199,6 +199,8 @@ public class SolarEventCalculator {
         BigDecimal utcTime = localMeanTime.subtract(getBaseLongitudeHour());
         if (utcTime.doubleValue() < 0) {
             utcTime = utcTime.add(BigDecimal.valueOf(24));
+        } else if(utcTime.doubleValue() > 24) {
+            utcTime = utcTime.subtract(BigDecimal.valueOf(24));
         }
         return adjustForDST(utcTime.add(getUTCOffSet()));
     }
