@@ -34,7 +34,7 @@ public class SolarEventCalculatorTest extends BaseTestCase {
 
         // Roll the date into a non-DST date.
         eventDate.roll(Calendar.DATE, true);
-        SunriseCalculator calc2 = new SunriseCalculator(new Location("0", "0"), 96, this.eventDate);
+        SolarEventCalculator calc2 = new SolarEventCalculator(new Location("0", "0"), 96, this.eventDate);
         actualUTCOffSet = calc2.getUTCOffSet();
         assertEquals(utcOffSet, actualUTCOffSet);
     }
@@ -80,11 +80,17 @@ public class SolarEventCalculatorTest extends BaseTestCase {
         String actualLocalTime = calc.getLocalTimeAsString(new BigDecimal("6.0825"));
         assertEquals(localTime, actualLocalTime);
     }
-    
+
     @Test
     public void testComputeSunriseTime() {
         String localSunriseTime = "06:05";
         assertEquals(localSunriseTime, calc.computeSunriseTime());
+    }
+
+    @Test
+    public void testComputeSunsetTime() {
+        String localSunsetTime = "17:28";
+        assertEquals(localSunsetTime, calc.computeSunsetTime());
     }
 
     @Test
