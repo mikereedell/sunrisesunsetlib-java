@@ -15,7 +15,7 @@ public class SolarEventCalculatorTest extends BaseTestCase {
 
     @Before
     public void setupCalculator() {
-        super.setup();
+        super.setup(10, 1, 2008);
         calc = new SolarEventCalculator(location, 96, this.eventDate);
     }
 
