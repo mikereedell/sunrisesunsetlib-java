@@ -137,13 +137,13 @@ public class SolarEventCalculator {
         BigDecimal rightAscension = new BigDecimal(Math.atan(convertDegreesToRadians(innerParens).doubleValue()));
         rightAscension = setScale(convertRadiansToDegrees(rightAscension));
 
-        //Adjust right ascension into [0,360]
-        if(rightAscension.doubleValue() < 0 ) {
+        // Adjust right ascension into [0,360]
+        if (rightAscension.doubleValue() < 0) {
             rightAscension = rightAscension.add(BigDecimal.valueOf(360));
-        } else if(rightAscension.doubleValue() > 360) {
+        } else if (rightAscension.doubleValue() > 360) {
             rightAscension = rightAscension.subtract(BigDecimal.valueOf(360));
         }
-        
+
         BigDecimal ninety = BigDecimal.valueOf(90);
         BigDecimal longitudeQuadrant = sunTrueLong.divide(ninety, 0, RoundingMode.FLOOR);
         longitudeQuadrant = longitudeQuadrant.multiply(ninety);
@@ -183,10 +183,10 @@ public class SolarEventCalculator {
         return setScale(cosDeclination);
     }
 
-    private BigDecimal getSunLocalHour(BigDecimal sunTrueLong, Boolean isSunrise) {
+    private BigDecimal getSunLocalHour(BigDecimal sunTrueLong) {
         BigDecimal arcCosineOfCosineHourAngle = getArcCosineFor(getCosineSunLocalHour(sunTrueLong));
         BigDecimal localHour = convertRadiansToDegrees(arcCosineOfCosineHourAngle);
-        if (isSunrise) {
+        if (this.isSunrise) {
             localHour = BigDecimal.valueOf(360).subtract(localHour);
         }
         return divideBy(localHour, BigDecimal.valueOf(15));
@@ -194,21 +194,21 @@ public class SolarEventCalculator {
 
     private BigDecimal getLocalMeanTime(BigDecimal sunTrueLong) {
         BigDecimal rightAscension = this.getRightAscension(sunTrueLong);
-        BigDecimal sunLocalHour = this.getSunLocalHour(sunTrueLong, isSunrise);
+        BigDecimal sunLocalHour = this.getSunLocalHour(sunTrueLong);
 
         BigDecimal innerParens = getLongitudeHour().multiply(new BigDecimal("0.06571"));
         BigDecimal localMeanTime = sunLocalHour.add(rightAscension).subtract(innerParens);
         localMeanTime = localMeanTime.subtract(new BigDecimal("6.622"));
+        if (localMeanTime.doubleValue() < 0) {
+            localMeanTime = localMeanTime.add(BigDecimal.valueOf(24));
+        } else if (localMeanTime.doubleValue() > 24) {
+            localMeanTime = localMeanTime.subtract(BigDecimal.valueOf(24));
+        }
         return setScale(localMeanTime);
     }
 
     private BigDecimal getLocalTime(BigDecimal localMeanTime) {
         BigDecimal utcTime = localMeanTime.subtract(getBaseLongitudeHour());
-        if (utcTime.doubleValue() < 0) {
-            utcTime = utcTime.add(BigDecimal.valueOf(24));
-        } else if(utcTime.doubleValue() > 24) {
-            utcTime = utcTime.subtract(BigDecimal.valueOf(24));
-        }
         BigDecimal utcOffSet = getUTCOffSet();
         BigDecimal utcOffSetTime = utcTime.add(utcOffSet);
         return adjustForDST(utcOffSetTime);
