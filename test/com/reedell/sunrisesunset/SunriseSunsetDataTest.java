@@ -12,7 +12,7 @@ public class SunriseSunsetDataTest extends BaseTestCase {
 
     @BeforeClass
     public static void setupAllTests() {
-        CSVTestDriver driver = new CSVTestDriver("SunriseSunsetTestData.txt");
+        CSVTestDriver driver = new CSVTestDriver("SunriseSunsetTestData19320-96Deg.txt");
         data = driver.getData();
     }
 

@@ -27,7 +27,7 @@ public class BaseTestCase {
     }
     
     /**
-     * +- two minutes is good enough.
+     * +- one minute is good enough.
      * 
      * @param expectedTime
      * @param actualTime
@@ -37,7 +37,7 @@ public class BaseTestCase {
         int expectedMinutes = getMinutes(expectedTime);
         int actualMinutes = getMinutes(actualTime);
 
-        if (((expectedMinutes - 2) <= actualMinutes) && (actualMinutes <= (expectedMinutes + 2))) {
+        if (((expectedMinutes - 1) <= actualMinutes) && (actualMinutes <= (expectedMinutes + 1))) {
             return;
         }
         Assert.fail("Expected: " + expectedTime + ", but was: " + actualTime + " for date: " + date);
