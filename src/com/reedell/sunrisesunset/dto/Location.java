@@ -1,4 +1,4 @@
-package com.reedell.sunrisesunset;
+package com.reedell.sunrisesunset.dto;
 
 import java.math.BigDecimal;
 

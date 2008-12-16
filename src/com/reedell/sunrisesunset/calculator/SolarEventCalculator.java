@@ -1,9 +1,11 @@
-package com.reedell.sunrisesunset;
+package com.reedell.sunrisesunset.calculator;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Calendar;
 import java.util.TimeZone;
+
+import com.reedell.sunrisesunset.dto.Location;
 
 /**
  * Parent class of the Sunrise and Sunset calculator classes.
@@ -13,19 +15,7 @@ public class SolarEventCalculator {
     protected Calendar eventDate;
 
     protected Location location;
-    protected double zenith;
-
-    /**
-     * Constructs a new <code>SolarEventCalculator</code> based on the given parameters.
-     * 
-     * @param location
-     *            <code>Location</code> object containing the coordinates to base the calculation on.
-     * @param zenith
-     *            zenith, in degrees, used in the solar calculation.
-     */
-    public SolarEventCalculator(Location location, Integer zenith) {
-        this(location, zenith, Calendar.getInstance());
-    }
+    protected BigDecimal zenith;
 
     /**
      * Constructs a new <code>SolarEventCalculator</code> based on the given parameters.
@@ -37,10 +27,26 @@ public class SolarEventCalculator {
      * @param eventDate
      *            date of the solar event to calculate.
      */
-    public SolarEventCalculator(Location location, Integer zenith, Calendar eventDate) {
+    public SolarEventCalculator(Location location, BigDecimal zenith, Calendar eventDate) {
         this.location = location;
         this.zenith = zenith;
         this.eventDate = eventDate;
+    }
+
+    public SolarEventCalculator(Location location) {
+        this.location = location;
+    }
+
+    public String computeSunsetTime(BigDecimal solarZenith, Calendar date) {
+        this.zenith = solarZenith;
+        this.eventDate = date;
+        return computeSunsetTime();
+    }
+
+    public String computeSunriseTime(BigDecimal solarZenith, Calendar date) {
+        this.zenith = solarZenith;
+        this.eventDate = date;
+        return computeSunriseTime();
     }
 
     public String computeSunsetTime() {
@@ -159,7 +165,7 @@ public class SolarEventCalculator {
         BigDecimal sinSunDeclination = getSinOfSunDeclination(sunTrueLong);
         BigDecimal cosineSunDeclination = getCosineOfSunDeclination(sinSunDeclination);
 
-        BigDecimal zenithInRads = convertDegreesToRadians(BigDecimal.valueOf(zenith));
+        BigDecimal zenithInRads = convertDegreesToRadians(zenith);
         BigDecimal cosineZenith = BigDecimal.valueOf(Math.cos(zenithInRads.doubleValue()));
         BigDecimal sinLatitude = BigDecimal.valueOf(Math.sin(convertDegreesToRadians(location.getLatitude()).doubleValue()));
         BigDecimal cosLatitude = BigDecimal.valueOf(Math.cos(convertDegreesToRadians(location.getLatitude()).doubleValue()));
@@ -274,17 +280,5 @@ public class SolarEventCalculator {
 
     private BigDecimal setScale(BigDecimal number) {
         return number.setScale(4, RoundingMode.HALF_EVEN);
-    }
-
-    public Calendar getEventDate() {
-        return this.eventDate;
-    }
-
-    public Location getLocation() {
-        return this.location;
-    }
-
-    public double getZenith() {
-        return this.zenith;
     }
 }

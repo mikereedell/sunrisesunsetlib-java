@@ -1,9 +1,11 @@
-package com.reedell.sunrisesunset;
+package com.reedell.sunrisesunset.util;
 
 import java.math.BigDecimal;
 import java.util.Calendar;
 
 import org.junit.Assert;
+
+import com.reedell.sunrisesunset.dto.Location;
 
 public class BaseTestCase {
 
@@ -17,15 +19,11 @@ public class BaseTestCase {
         eventDate.set(Calendar.MONTH, month);
         eventDate.set(Calendar.DAY_OF_MONTH, day);
 
-        BigDecimal latitude = BigDecimal.valueOf(39.9937).setScale(4);
-        BigDecimal longitude = BigDecimal.valueOf(-75.7850).setScale(4);
+        BigDecimal latitude = new BigDecimal("39.9937");
+        BigDecimal longitude = new BigDecimal("-75.7850");
         location = new Location(latitude, longitude);
     }
 
-    protected String getMessage(Object expected, Object actual) {
-        return "Expected: " + expected + " but was: " + actual;
-    }
-    
     /**
      * +- one minute is good enough.
      * 
@@ -41,6 +39,10 @@ public class BaseTestCase {
             return;
         }
         Assert.fail("Expected: " + expectedTime + ", but was: " + actualTime + " for date: " + date);
+    }
+
+    protected String getMessage(Object expected, Object actual) {
+        return "Expected: " + expected + " but was: " + actual;
     }
 
     private int getMinutes(String timeString) {

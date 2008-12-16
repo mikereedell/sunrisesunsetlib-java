@@ -3,7 +3,7 @@
 # Takes a years worth of solar data and creates a CSV file from it.
 # The data comes from http://www.cmpsolv.com/los/sunsetexp.html
 
-output = File.new("C:/temp/solardata.csv", "w")
+output = File.new("solardata.csv", "w")
 month = 0
 
 File.open("solardata.txt", "r").grep(/(\d)+\s(([0-1][0-9]|[2][0-3]):([0-5][0-9])(\s)?)+/).each do |line|

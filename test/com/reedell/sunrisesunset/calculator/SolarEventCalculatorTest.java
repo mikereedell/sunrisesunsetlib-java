@@ -1,13 +1,15 @@
-package com.reedell.sunrisesunset;
+package com.reedell.sunrisesunset.calculator;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.math.BigDecimal;
-import java.util.Calendar;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import com.reedell.sunrisesunset.calculator.SolarEventCalculator;
+import com.reedell.sunrisesunset.util.BaseTestCase;
 
 public class SolarEventCalculatorTest extends BaseTestCase {
 
@@ -16,7 +18,7 @@ public class SolarEventCalculatorTest extends BaseTestCase {
     @Before
     public void setupCalculator() {
         super.setup(10, 1, 2008);
-        calc = new SolarEventCalculator(location, 96, this.eventDate);
+        calc = new SolarEventCalculator(location, BigDecimal.valueOf(96), this.eventDate);
     }
 
     @Test
@@ -30,12 +32,6 @@ public class SolarEventCalculatorTest extends BaseTestCase {
     public void testGetUTCOffset() {
         BigDecimal utcOffSet = new BigDecimal("-5");
         BigDecimal actualUTCOffSet = calc.getUTCOffSet();
-        assertEquals(utcOffSet, actualUTCOffSet);
-
-        // Roll the date into a non-DST date.
-        eventDate.roll(Calendar.DATE, true);
-        SolarEventCalculator calc2 = new SolarEventCalculator(new Location("0", "0"), 96, this.eventDate);
-        actualUTCOffSet = calc2.getUTCOffSet();
         assertEquals(utcOffSet, actualUTCOffSet);
     }
 

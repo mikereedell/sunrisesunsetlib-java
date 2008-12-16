@@ -1,4 +1,4 @@
-package com.reedell.sunrisesunset;
+package com.reedell.sunrisesunset.util;
 
 import java.io.File;
 import java.io.FileNotFoundException;

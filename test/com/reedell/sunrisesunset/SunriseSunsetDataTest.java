@@ -6,13 +6,17 @@ import java.util.List;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.reedell.sunrisesunset.dto.Location;
+import com.reedell.sunrisesunset.util.BaseTestCase;
+import com.reedell.sunrisesunset.util.CSVTestDriver;
+
 public class SunriseSunsetDataTest extends BaseTestCase {
 
     private static List<String[]> data;
 
     @BeforeClass
     public static void setupAllTests() {
-        CSVTestDriver driver = new CSVTestDriver("SunriseSunsetTestData19320-96Deg.txt");
+        CSVTestDriver driver = new CSVTestDriver("testdata/SunriseSunsetTestData19320.txt");
         data = driver.getData();
     }
 
@@ -20,13 +24,26 @@ public class SunriseSunsetDataTest extends BaseTestCase {
     public void testRiseAndSetTimes() {
         for (String[] line : data) {
             String date = line[0];
-            String riseTime = line[1];
-            String setTime = line[2];
+            String astroRiseTime = line[1];
+            String nauticalRiseTime = line[2];
+            String civilRiseTime = line[3];
+            String officialRiseTime = line[4];
+            String officialSetTime = line[5];
+            String civilSetTime = line[6];
+            String nauticalSetTime = line[7];
+            String astroSetTime = line[8];
 
             Calendar calendar = createCalendar(date.split("\\/"));
-            SolarEventCalculator calc = new SolarEventCalculator(createLocation(), 96, calendar);
-            assertTimeEquals(riseTime, calc.computeSunriseTime(), date);
-            assertTimeEquals(setTime, calc.computeSunsetTime(), date);
+            SunriseSunsetCalculator calc = new SunriseSunsetCalculator(createLocation());
+
+            assertTimeEquals(astroRiseTime, calc.getAstronomicalSunriseForDate(calendar), date);
+            assertTimeEquals(astroSetTime, calc.getAstronomicalSunsetForDate(calendar), date);
+            assertTimeEquals(nauticalRiseTime, calc.getNauticalSunriseForDate(calendar), date);
+            assertTimeEquals(nauticalSetTime, calc.getNauticalSunsetForDate(calendar), date);
+            assertTimeEquals(officialRiseTime, calc.getOfficalSunriseForDate(calendar), date);
+            assertTimeEquals(officialSetTime, calc.getOfficialSunsetForDate(calendar), date);
+            assertTimeEquals(civilRiseTime, calc.getCivilSunriseForDate(calendar), date);
+            assertTimeEquals(civilSetTime, calc.getCivilSunsetForDate(calendar), date);
         }
     }
 
