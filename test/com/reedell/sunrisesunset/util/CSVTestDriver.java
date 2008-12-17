@@ -14,26 +14,32 @@ import java.util.List;
  */
 public class CSVTestDriver {
 
-    LineNumberReader reader;
+    private File testDataDirectory;
 
-    public CSVTestDriver(String csvFileName) {
-        try {
-            File csvFile = new File(csvFileName);
-            FileReader csvFileReader = new FileReader(csvFile);
-            reader = new LineNumberReader(csvFileReader);
-        } catch (FileNotFoundException fnfe) {
-            fnfe.printStackTrace();
-        }
+    public CSVTestDriver(String testDataDirectoryName) {
+        testDataDirectory = new File(testDataDirectoryName);
     }
 
-    public List<String[]> getData() {
+    public String[] getFileNames() {
+        return testDataDirectory.list();
+    }
+
+    public List<String[]> getData(String testDataFileName) {
         List<String[]> valueList = new ArrayList<String[]>();
-        String line;
         try {
-            while ((line = reader.readLine()) != null) {
-                // Split the line on the ',' and turn it into an array.
-                String[] datum = line.split("\\,");
-                valueList.add(datum);
+            FileReader csvFileReader = new FileReader(new File(testDataDirectory + "/" + testDataFileName));
+            LineNumberReader reader = new LineNumberReader(csvFileReader);
+
+            String line;
+            try {
+                while ((line = reader.readLine()) != null) {
+                    // Split the line on the ',' and turn it into an array.
+                    String[] datum = line.split("\\,");
+                    valueList.add(datum);
+                }
+
+            } catch (FileNotFoundException fnfe) {
+                fnfe.printStackTrace();
             }
         } catch (IOException e) {
             e.printStackTrace();
