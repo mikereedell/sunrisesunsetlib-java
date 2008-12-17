@@ -2,7 +2,9 @@ package com.reedell.sunrisesunset;
 
 import java.util.Calendar;
 import java.util.List;
+import java.util.TimeZone;
 
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -12,8 +14,6 @@ import com.reedell.sunrisesunset.util.CSVTestDriver;
 
 public class SunriseSunsetDataTest extends BaseTestCase {
     private static CSVTestDriver driver;
-
-    // Iterate over the listing of data files and
     private static String[] dataSetNames; // The lat/long will be encoded in the filename.
 
     @BeforeClass
@@ -22,16 +22,21 @@ public class SunriseSunsetDataTest extends BaseTestCase {
         dataSetNames = driver.getFileNames();
     }
 
+    @AfterClass
+    public static void tearDownAllTests() {
+        TimeZone.setDefault(TimeZone.getTimeZone("America/New_York"));
+    }
+
     @Test
     public void testRiseAndSetTimes() {
         for (String dataSetName : dataSetNames) {
-            System.out.println(dataSetName);
             List<String[]> data = driver.getData(dataSetName);
-            Location location = createLocation(dataSetName);
+            String[] dataSetNameParts = dataSetName.split("\\#");
+            setTimeZone(dataSetNameParts[1]);
+            Location location = createLocation(dataSetNameParts[0]);
 
             for (String[] line : data) {
                 String date = line[0];
-                System.out.println(date);
                 String astroRiseTime = line[1];
                 String nauticalRiseTime = line[2];
                 String civilRiseTime = line[3];
@@ -56,21 +61,23 @@ public class SunriseSunsetDataTest extends BaseTestCase {
         }
     }
 
+    private void setTimeZone(String timeZone) {
+        timeZone = timeZone.split("\\.")[0].replace('-', '/');
+        TimeZone.setDefault(TimeZone.getTimeZone(timeZone));
+    }
+
     private Calendar createCalendar(String[] dateParts) {
         Calendar cal = Calendar.getInstance();
         cal.set(Integer.valueOf(dateParts[2]), Integer.valueOf(dateParts[0]) - 1, Integer.valueOf(dateParts[1]));
-        // Print out the date, the timezone display name and whether it's in DST or not.
-        // System.out.println(cal.getTimeZone().getDisplayName() + " " + cal.;
+        System.out.println(cal.getTimeZone().getDisplayName());
         return cal;
     }
 
     private Location createLocation(String fileName) {
-        String[] latlong = fileName.split("\\.")[0].split("\\-");
+        String[] latlong = fileName.split("\\-");
         String latitude = latlong[0].replace('_', '.');
         String longitude = latlong[1].replace('_', '.');
 
-        // North is +, South -
-        // East is +, West -
         if (latitude.endsWith("S")) {
             latitude = "-" + latitude;
         }
@@ -80,9 +87,6 @@ public class SunriseSunsetDataTest extends BaseTestCase {
         }
         latitude = latitude.substring(0, latitude.length() - 1);
         longitude = longitude.substring(0, longitude.length() - 1);
-
-        System.out.println(latitude);
-        System.out.println(longitude);
         return new Location(latitude, longitude);
     }
 }
