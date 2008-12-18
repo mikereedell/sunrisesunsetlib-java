@@ -37,26 +37,17 @@ public class SunriseSunsetDataTest extends BaseTestCase {
 
             for (String[] line : data) {
                 String date = line[0];
-                String astroRiseTime = line[1];
-                String nauticalRiseTime = line[2];
-                String civilRiseTime = line[3];
-                String officialRiseTime = line[4];
-                String officialSetTime = line[5];
-                String civilSetTime = line[6];
-                String nauticalSetTime = line[7];
-                String astroSetTime = line[8];
-
                 Calendar calendar = createCalendar(date.split("\\/"));
                 SunriseSunsetCalculator calc = new SunriseSunsetCalculator(location);
 
-                assertTimeEquals(astroRiseTime, calc.getAstronomicalSunriseForDate(calendar), date);
-                assertTimeEquals(astroSetTime, calc.getAstronomicalSunsetForDate(calendar), date);
-                assertTimeEquals(nauticalRiseTime, calc.getNauticalSunriseForDate(calendar), date);
-                assertTimeEquals(nauticalSetTime, calc.getNauticalSunsetForDate(calendar), date);
-                assertTimeEquals(officialRiseTime, calc.getOfficalSunriseForDate(calendar), date);
-                assertTimeEquals(officialSetTime, calc.getOfficialSunsetForDate(calendar), date);
-                assertTimeEquals(civilRiseTime, calc.getCivilSunriseForDate(calendar), date);
-                assertTimeEquals(civilSetTime, calc.getCivilSunsetForDate(calendar), date);
+                assertTimeEquals(line[1], calc.getAstronomicalSunriseForDate(calendar), date);
+                assertTimeEquals(line[8], calc.getAstronomicalSunsetForDate(calendar), date);
+                assertTimeEquals(line[2], calc.getNauticalSunriseForDate(calendar), date);
+                assertTimeEquals(line[7], calc.getNauticalSunsetForDate(calendar), date);
+                assertTimeEquals(line[4], calc.getOfficalSunriseForDate(calendar), date);
+                assertTimeEquals(line[5], calc.getOfficialSunsetForDate(calendar), date);
+                assertTimeEquals(line[3], calc.getCivilSunriseForDate(calendar), date);
+                assertTimeEquals(line[6], calc.getCivilSunsetForDate(calendar), date);
             }
         }
     }
@@ -69,7 +60,6 @@ public class SunriseSunsetDataTest extends BaseTestCase {
     private Calendar createCalendar(String[] dateParts) {
         Calendar cal = Calendar.getInstance();
         cal.set(Integer.valueOf(dateParts[2]), Integer.valueOf(dateParts[0]) - 1, Integer.valueOf(dateParts[1]));
-        System.out.println(cal.getTimeZone().getDisplayName());
         return cal;
     }
 

@@ -1,6 +1,5 @@
 package com.reedell.sunrisesunset.util;
 
-import java.math.BigDecimal;
 import java.util.Calendar;
 
 import org.junit.Assert;
@@ -18,10 +17,7 @@ public class BaseTestCase {
         eventDate.set(Calendar.YEAR, year);
         eventDate.set(Calendar.MONTH, month);
         eventDate.set(Calendar.DAY_OF_MONTH, day);
-
-        BigDecimal latitude = new BigDecimal("39.9937");
-        BigDecimal longitude = new BigDecimal("-75.7850");
-        location = new Location(latitude, longitude);
+        location = new Location("39.9937", "-75.7850");
     }
 
     /**
