@@ -33,7 +33,7 @@ public class SunriseSunsetDataTest extends BaseTestCase {
             List<String[]> data = driver.getData(dataSetName);
             String[] dataSetNameParts = dataSetName.split("\\#");
             setTimeZone(dataSetNameParts[1]);
-            Location location = createLocation(dataSetNameParts[0]);
+            location = createLocation(dataSetNameParts[0]);
 
             for (String[] line : data) {
                 String date = line[0];
@@ -53,8 +53,8 @@ public class SunriseSunsetDataTest extends BaseTestCase {
     }
 
     private void setTimeZone(String timeZone) {
-        timeZone = timeZone.split("\\.")[0].replace('-', '/');
-        TimeZone.setDefault(TimeZone.getTimeZone(timeZone));
+        String timeZoneName = timeZone.split("\\.")[0].replace('-', '/');
+        TimeZone.setDefault(TimeZone.getTimeZone(timeZoneName));
     }
 
     private Calendar createCalendar(String[] dateParts) {
@@ -71,7 +71,6 @@ public class SunriseSunsetDataTest extends BaseTestCase {
         if (latitude.endsWith("S")) {
             latitude = "-" + latitude;
         }
-
         if (longitude.endsWith("W")) {
             longitude = "-" + longitude;
         }

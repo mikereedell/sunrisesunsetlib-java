@@ -12,10 +12,10 @@ import com.reedell.sunrisesunset.dto.Location;
  */
 public class SolarEventCalculator {
     private Boolean isSunrise = Boolean.TRUE;
-    protected Calendar eventDate;
-
-    protected Location location;
-    protected BigDecimal zenith;
+    private Calendar eventDate;
+    private Location location;
+    private BigDecimal zenith;
+    private TimeZone timeZone;
 
     /**
      * Constructs a new <code>SolarEventCalculator</code> based on the given parameters.
@@ -36,6 +36,15 @@ public class SolarEventCalculator {
     public SolarEventCalculator(Location location) {
         this.location = location;
     }
+
+    public SolarEventCalculator(Location location, String timeZoneIdentifier) {
+        this.location = location;
+        this.timeZone = TimeZone.getTimeZone(timeZoneIdentifier);
+    }
+
+    // Get rid of the first constructor (Location, BigDecimal, Calendar).
+    // Don't assign the parameters from the computeSun**() to members, pass them along.
+    // Refactor out the computeSunSetTime() and computeSunRiseTime() methods.
 
     public String computeSunsetTime(BigDecimal solarZenith, Calendar date) {
         this.zenith = solarZenith;

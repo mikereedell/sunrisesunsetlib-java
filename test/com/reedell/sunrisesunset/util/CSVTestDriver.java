@@ -33,11 +33,9 @@ public class CSVTestDriver {
             String line;
             try {
                 while ((line = reader.readLine()) != null) {
-                    // Split the line on the ',' and turn it into an array.
                     String[] datum = line.split("\\,");
                     valueList.add(datum);
                 }
-
             } catch (FileNotFoundException fnfe) {
                 fnfe.printStackTrace();
             }
