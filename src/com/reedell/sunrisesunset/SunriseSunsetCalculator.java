@@ -37,7 +37,7 @@ public class SunriseSunsetCalculator {
      *            "America/New_York".
      */
     public SunriseSunsetCalculator(Location location, String timeZoneIdentifier) {
-        this.calculator = new SolarEventCalculator(location);
+        this.calculator = new SolarEventCalculator(location, timeZoneIdentifier);
     }
 
     /**
@@ -109,7 +109,8 @@ public class SunriseSunsetCalculator {
     /**
      * Returns the official sunrise (90deg 50', 90.8333deg) for the given date.
      * 
-     * @param date <code>Calendar</code> object containing the date to compute the official sunrise for.
+     * @param date
+     *            <code>Calendar</code> object containing the date to compute the official sunrise for.
      * @return the official sunrise time in HH:MM (24-hour clock) form.
      */
     public String getOfficalSunriseForDate(Calendar date) {

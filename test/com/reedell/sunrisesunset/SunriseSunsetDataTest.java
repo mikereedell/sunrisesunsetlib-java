@@ -32,13 +32,13 @@ public class SunriseSunsetDataTest extends BaseTestCase {
         for (String dataSetName : dataSetNames) {
             List<String[]> data = driver.getData(dataSetName);
             String[] dataSetNameParts = dataSetName.split("\\#");
-            setTimeZone(dataSetNameParts[1]);
+            String timeZoneName = dataSetNameParts[1].split("\\.")[0].replace('-', '/');
             location = createLocation(dataSetNameParts[0]);
 
             for (String[] line : data) {
                 String date = line[0];
                 Calendar calendar = createCalendar(date.split("\\/"));
-                SunriseSunsetCalculator calc = new SunriseSunsetCalculator(location);
+                SunriseSunsetCalculator calc = new SunriseSunsetCalculator(location, timeZoneName);
 
                 assertTimeEquals(line[1], calc.getAstronomicalSunriseForDate(calendar), date);
                 assertTimeEquals(line[8], calc.getAstronomicalSunsetForDate(calendar), date);
@@ -50,11 +50,6 @@ public class SunriseSunsetDataTest extends BaseTestCase {
                 assertTimeEquals(line[6], calc.getCivilSunsetForDate(calendar), date);
             }
         }
-    }
-
-    private void setTimeZone(String timeZone) {
-        String timeZoneName = timeZone.split("\\.")[0].replace('-', '/');
-        TimeZone.setDefault(TimeZone.getTimeZone(timeZoneName));
     }
 
     private Calendar createCalendar(String[] dateParts) {

@@ -11,12 +11,13 @@ import com.reedell.sunrisesunset.dto.Location;
  * Parent class of the Sunrise and Sunset calculator classes.
  */
 public class SolarEventCalculator {
-    private Boolean isSunrise = Boolean.TRUE;
     private Location location;
     private TimeZone timeZone;
 
     public SolarEventCalculator(Location location) {
         this.location = location;
+        // Default the timezone to the system default.s
+        // this.timeZone = System.g
     }
 
     public SolarEventCalculator(Location location, String timeZoneIdentifier) {
@@ -24,24 +25,25 @@ public class SolarEventCalculator {
         this.timeZone = TimeZone.getTimeZone(timeZoneIdentifier);
     }
 
-    // Get rid of the first constructor (Location, BigDecimal, Calendar).
-    // Refactor out the isSunrise member.
-    public String computeSunsetTime(BigDecimal solarZenith, Calendar date) {
-        this.isSunrise = false;
-        BigDecimal meanAnomaly = getMeanAnomaly(date);
-        BigDecimal sunTrueLong = getSunTrueLongitude(meanAnomaly);
+    public String computeSunriseTime(BigDecimal solarZenith, Calendar date) {
+        date.setTimeZone(timeZone);
+        BigDecimal longitudeHour = getLongitudeHour(date, Boolean.TRUE);
 
-        BigDecimal localMeanTime = getLocalMeanTime(sunTrueLong, solarZenith, date);
+        BigDecimal meanAnomaly = getMeanAnomaly(longitudeHour);
+        BigDecimal sunTrueLong = getSunTrueLongitude(meanAnomaly);
+        BigDecimal sunLocalHour = getSunLocalHour(sunTrueLong, solarZenith, Boolean.TRUE);
+        BigDecimal localMeanTime = getLocalMeanTime(sunTrueLong, longitudeHour, sunLocalHour);
         BigDecimal localTime = getLocalTime(localMeanTime, date);
         return getLocalTimeAsString(localTime);
     }
 
-    public String computeSunriseTime(BigDecimal solarZenith, Calendar date) {
-        this.isSunrise = true;
-        BigDecimal meanAnomaly = getMeanAnomaly(date);
-        BigDecimal sunTrueLong = getSunTrueLongitude(meanAnomaly);
+    public String computeSunsetTime(BigDecimal solarZenith, Calendar date) {
+        BigDecimal longitudeHour = getLongitudeHour(date, Boolean.FALSE);
 
-        BigDecimal localMeanTime = getLocalMeanTime(sunTrueLong, solarZenith, date);
+        BigDecimal meanAnomaly = getMeanAnomaly(longitudeHour);
+        BigDecimal sunTrueLong = getSunTrueLongitude(meanAnomaly);
+        BigDecimal sunLocalHour = getSunLocalHour(sunTrueLong, solarZenith, Boolean.FALSE);
+        BigDecimal localMeanTime = getLocalMeanTime(sunTrueLong, longitudeHour, sunLocalHour);
         BigDecimal localTime = getLocalTime(localMeanTime, date);
         return getLocalTimeAsString(localTime);
     }
@@ -61,7 +63,7 @@ public class SolarEventCalculator {
      * 
      * @return longitudinal time in <code>BigDecimal</code> form.
      */
-    private BigDecimal getLongitudeHour(Calendar date) {
+    private BigDecimal getLongitudeHour(Calendar date, Boolean isSunrise) {
         int offset = 18;
         if (isSunrise) {
             offset = 6;
@@ -77,8 +79,8 @@ public class SolarEventCalculator {
      * 
      * @return the suns mean anomaly, M, in <code>BigDecimal</code> form.
      */
-    private BigDecimal getMeanAnomaly(Calendar date) {
-        BigDecimal meanAnomaly = multiplyBy(new BigDecimal("0.9856"), getLongitudeHour(date)).subtract(new BigDecimal("3.289"));
+    private BigDecimal getMeanAnomaly(BigDecimal longitudeHour) {
+        BigDecimal meanAnomaly = multiplyBy(new BigDecimal("0.9856"), longitudeHour).subtract(new BigDecimal("3.289"));
         return setScale(meanAnomaly);
     }
 
@@ -107,7 +109,7 @@ public class SolarEventCalculator {
 
     /**
      * Computes the suns right ascension, RA in the algorithm, adjusting for the quadrant of L and turning it
-     * into degree-hours.
+     * into degree-hours. Will be in the range [0,360].
      * 
      * @param sunTrueLong
      *            Suns true longitude, in <code>BigDecimal</code>
@@ -120,7 +122,6 @@ public class SolarEventCalculator {
         BigDecimal rightAscension = new BigDecimal(Math.atan(convertDegreesToRadians(innerParens).doubleValue()));
         rightAscension = setScale(convertRadiansToDegrees(rightAscension));
 
-        // Adjust right ascension into [0,360]
         if (rightAscension.doubleValue() < 0) {
             rightAscension = rightAscension.add(BigDecimal.valueOf(360));
         } else if (rightAscension.doubleValue() > 360) {
@@ -166,22 +167,21 @@ public class SolarEventCalculator {
         return setScale(cosDeclination);
     }
 
-    private BigDecimal getSunLocalHour(BigDecimal sunTrueLong, BigDecimal zenith) {
+    private BigDecimal getSunLocalHour(BigDecimal sunTrueLong, BigDecimal zenith, Boolean isSunrise) {
         BigDecimal arcCosineOfCosineHourAngle = getArcCosineFor(getCosineSunLocalHour(sunTrueLong, zenith));
         BigDecimal localHour = convertRadiansToDegrees(arcCosineOfCosineHourAngle);
-        if (this.isSunrise) {
+        if (isSunrise) {
             localHour = BigDecimal.valueOf(360).subtract(localHour);
         }
         return divideBy(localHour, BigDecimal.valueOf(15));
     }
 
-    private BigDecimal getLocalMeanTime(BigDecimal sunTrueLong, BigDecimal zenith, Calendar date) {
+    private BigDecimal getLocalMeanTime(BigDecimal sunTrueLong, BigDecimal longitudeHour, BigDecimal sunLocalHour) {
         BigDecimal rightAscension = this.getRightAscension(sunTrueLong);
-        BigDecimal sunLocalHour = this.getSunLocalHour(sunTrueLong, zenith);
-
-        BigDecimal innerParens = getLongitudeHour(date).multiply(new BigDecimal("0.06571"));
+        BigDecimal innerParens = longitudeHour.multiply(new BigDecimal("0.06571"));
         BigDecimal localMeanTime = sunLocalHour.add(rightAscension).subtract(innerParens);
         localMeanTime = localMeanTime.subtract(new BigDecimal("6.622"));
+
         if (localMeanTime.doubleValue() < 0) {
             localMeanTime = localMeanTime.add(BigDecimal.valueOf(24));
         } else if (localMeanTime.doubleValue() > 24) {
