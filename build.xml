@@ -1,36 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project name="sunrisesunsetlib" basedir="." default="all">
-	
+
 	<property name="app-name" value="SunriseSunsetLib" />
 	<property name="build-dir" value="build" />
 	<property name="dist-dir" value="dist" />
 
 	<target name="all" description="Compiles, packages, unit test and generate javadoc">
-		
+
 	</target>
-	
+
 	<target name="compile" description="Cleanly compiles the sunrisesunset lib.">
 		<delete includeemptydirs="true">
-			<fileset dir="${build-dir}"/>
+			<fileset dir="${build-dir}" />
 		</delete>
-		
-		
+
+
 	</target>
-	
+
 	<target name="package" description="Packages the compiled code into a jar file.">
-	
+
 	</target>
-	
+
 	<target name="unittest" description="Run the JUnit tests.">
-	
+
 	</target>
-	
+
 	<target name="javadoc" description="Generate javadoc">
-	
+
 	</target>
-	
-	<target name="clean">
-	
+
+	<target name="clean" description="Cleans the build and dist directories.">
+		<delete includeemptydirs="true">
+			<fileset dir="${build-dir}" />
+		</delete>
+		<delete includeemptydirs="true">
+			<fileset dir="dist-dir" />
+		</delete>
 	</target>
 </project>
