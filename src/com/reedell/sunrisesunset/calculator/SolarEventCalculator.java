@@ -16,8 +16,7 @@ public class SolarEventCalculator {
 
     public SolarEventCalculator(Location location) {
         this.location = location;
-        // Default the timezone to the system default.s
-        // this.timeZone = System.g
+        this.timeZone = TimeZone.getDefault();
     }
 
     public SolarEventCalculator(Location location, String timeZoneIdentifier) {
@@ -38,6 +37,7 @@ public class SolarEventCalculator {
     }
 
     public String computeSunsetTime(BigDecimal solarZenith, Calendar date) {
+        date.setTimeZone(timeZone);
         BigDecimal longitudeHour = getLongitudeHour(date, Boolean.FALSE);
 
         BigDecimal meanAnomaly = getMeanAnomaly(longitudeHour);

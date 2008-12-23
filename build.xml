@@ -5,37 +5,64 @@
 	<property name="app-name" value="SunriseSunsetLib" />
 	<property name="build-dir" value="build" />
 	<property name="dist-dir" value="dist" />
+	<property name="src-dir" value="src" />
+	<property name="test-dir" value="test" />
 
 	<target name="all" description="Compiles, packages, unit test and generate javadoc">
-
+		<antcall target="clean" />
+		<antcall target="compile" />
+		<antcall target="package" />
+		<antcall target="unittest" />
+		<antcall target="javadoc" />
 	</target>
 
 	<target name="compile" description="Cleanly compiles the sunrisesunset lib.">
-		<delete includeemptydirs="true">
-			<fileset dir="${build-dir}" />
-		</delete>
-
-
+		<antcall target="-cleanbuilddir" />
+		<mkdir dir="${build-dir}/test" />
+		<javac srcdir="${src-dir}" destdir="${build-dir}" fork="true" source="1.5" target="1.5" />
 	</target>
 
 	<target name="package" description="Packages the compiled code into a jar file.">
-
+		<jar destfile="${dist-dir}/SunriseSunsetLib.jar" basedir="${build-dir}" />
 	</target>
 
 	<target name="unittest" description="Run the JUnit tests.">
+		<path id="test.class.path">
+			<pathelement path="${dist-dir}/SunriseSunsetLib.jar" />
+			<pathelement path="lib/junit-4.3.1.jar" />
+		</path>
 
+		<javac srcdir="${test-dir}" destdir="${build-dir}/test" classpathref="test.class.path" source="1.5" target="1.5" />
+		<jar destfile="${dist-dir}/SunriseSunsetLibTest.jar" basedir="${build-dir}/test/" />
+
+		<junit printsummary="withOutAndErr" showoutput="yes" haltonfailure="yes">
+			<batchtest todir=".">
+				<fileset dir="${build-dir}/test/">
+					<include name="**/*Test.class" />
+				</fileset>
+			</batchtest>
+		</junit>
 	</target>
 
 	<target name="javadoc" description="Generate javadoc">
-
 	</target>
 
 	<target name="clean" description="Cleans the build and dist directories.">
-		<delete includeemptydirs="true">
-			<fileset dir="${build-dir}" />
+		<antcall target="-cleandistdir" />
+		<antcall target="-cleanbuilddir" />
+	</target>
+
+	<target name="-cleandistdir">
+		<mkdir dir="${dist-dir}" />
+		<delete includeemptydirs="true" failonerror="false">
+			<fileset dir="${dist-dir}/**/*" />
 		</delete>
-		<delete includeemptydirs="true">
-			<fileset dir="dist-dir" />
+	</target>
+
+	<target name="-cleanbuilddir">
+		<mkdir dir="${build-dir}" />
+		<delete includeemptydirs="true" failonerror="false">
+			<fileset dir="${build-dir}/**/*" />
 		</delete>
 	</target>
 </project>
