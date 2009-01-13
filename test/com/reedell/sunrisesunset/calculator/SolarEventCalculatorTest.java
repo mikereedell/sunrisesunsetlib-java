@@ -2,11 +2,10 @@ package com.reedell.sunrisesunset.calculator;
 
 import static org.junit.Assert.assertEquals;
 
-import java.math.BigDecimal;
-
 import org.junit.Before;
 import org.junit.Test;
 
+import com.reedell.sunrisesunset.Zenith;
 import com.reedell.sunrisesunset.util.BaseTestCase;
 
 public class SolarEventCalculatorTest extends BaseTestCase {
@@ -22,13 +21,13 @@ public class SolarEventCalculatorTest extends BaseTestCase {
     @Test
     public void testComputeSunriseTime() {
         String localSunriseTime = "07:05";
-        assertEquals(localSunriseTime, calc.computeSunriseTime(BigDecimal.valueOf(96), this.eventDate));
+        assertEquals(localSunriseTime, calc.computeSunriseTime(Zenith.CIVIL, this.eventDate));
     }
 
     @Test
     public void testComputeSunsetTime() {
         String localSunsetTime = "18:28";
-        assertEquals(localSunsetTime, calc.computeSunsetTime(BigDecimal.valueOf(96), this.eventDate));
+        assertEquals(localSunsetTime, calc.computeSunsetTime(Zenith.CIVIL, this.eventDate));
     }
 
     /*

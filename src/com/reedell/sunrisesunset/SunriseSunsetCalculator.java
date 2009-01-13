@@ -1,6 +1,5 @@
 package com.reedell.sunrisesunset;
 
-import java.math.BigDecimal;
 import java.util.Calendar;
 
 import com.reedell.sunrisesunset.calculator.SolarEventCalculator;
@@ -48,7 +47,7 @@ public class SunriseSunsetCalculator {
      * @return the astronomical sunrise time in HH:MM (24-hour clock) form.
      */
     public String getAstronomicalSunriseForDate(Calendar date) {
-        return calculator.computeSunriseTime(BigDecimal.valueOf(108), date);
+        return calculator.computeSunriseTime(Zenith.ASTRONOMICAL, date);
     }
 
     /**
@@ -59,7 +58,7 @@ public class SunriseSunsetCalculator {
      * @return the astronomical sunset time in HH:MM (24-hour clock) form.
      */
     public String getAstronomicalSunsetForDate(Calendar date) {
-        return calculator.computeSunsetTime(BigDecimal.valueOf(108), date);
+        return calculator.computeSunsetTime(Zenith.ASTRONOMICAL, date);
     }
 
     /**
@@ -70,7 +69,7 @@ public class SunriseSunsetCalculator {
      * @return the nautical sunrise time in HH:MM (24-hour clock) form.
      */
     public String getNauticalSunriseForDate(Calendar date) {
-        return calculator.computeSunriseTime(BigDecimal.valueOf(102), date);
+        return calculator.computeSunriseTime(Zenith.NAUTICAL, date);
     }
 
     /**
@@ -81,7 +80,7 @@ public class SunriseSunsetCalculator {
      * @return the nautical sunset time in HH:MM (24-hour clock) form.
      */
     public String getNauticalSunsetForDate(Calendar date) {
-        return calculator.computeSunsetTime(BigDecimal.valueOf(102), date);
+        return calculator.computeSunsetTime(Zenith.NAUTICAL, date);
     }
 
     /**
@@ -92,7 +91,7 @@ public class SunriseSunsetCalculator {
      * @return the civil sunrise time in HH:MM (24-hour clock) form.
      */
     public String getCivilSunriseForDate(Calendar date) {
-        return calculator.computeSunriseTime(BigDecimal.valueOf(96), date);
+        return calculator.computeSunriseTime(Zenith.CIVIL, date);
     }
 
     /**
@@ -103,7 +102,7 @@ public class SunriseSunsetCalculator {
      * @return the civil sunset time in HH:MM (24-hour clock) form.
      */
     public String getCivilSunsetForDate(Calendar date) {
-        return calculator.computeSunsetTime(BigDecimal.valueOf(96), date);
+        return calculator.computeSunsetTime(Zenith.CIVIL, date);
     }
 
     /**
@@ -114,7 +113,7 @@ public class SunriseSunsetCalculator {
      * @return the official sunrise time in HH:MM (24-hour clock) form.
      */
     public String getOfficalSunriseForDate(Calendar date) {
-        return calculator.computeSunriseTime(new BigDecimal("90.8333"), date);
+        return calculator.computeSunriseTime(Zenith.OFFICIAL, date);
     }
 
     /**
@@ -125,7 +124,7 @@ public class SunriseSunsetCalculator {
      * @return the official sunset time in HH:MM (24-hour clock) form.
      */
     public String getOfficialSunsetForDate(Calendar date) {
-        return calculator.computeSunsetTime(new BigDecimal("90.8333"), date);
+        return calculator.computeSunsetTime(Zenith.OFFICIAL, date);
     }
 
     /**
