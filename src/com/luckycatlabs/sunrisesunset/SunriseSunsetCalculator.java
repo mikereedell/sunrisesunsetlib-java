@@ -1,9 +1,9 @@
-package com.reedell.sunrisesunset;
+package com.luckycatlabs.sunrisesunset;
 
 import java.util.Calendar;
 
-import com.reedell.sunrisesunset.calculator.SolarEventCalculator;
-import com.reedell.sunrisesunset.dto.Location;
+import com.luckycatlabs.sunrisesunset.calculator.SolarEventCalculator;
+import com.luckycatlabs.sunrisesunset.dto.Location;
 
 /**
  * Public interface for getting the various types of sunrise/sunset.

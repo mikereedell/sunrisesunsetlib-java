@@ -1,4 +1,4 @@
-package com.reedell.sunrisesunset;
+package com.luckycatlabs.sunrisesunset;
 
 import java.util.Calendar;
 import java.util.List;
@@ -8,9 +8,10 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.reedell.sunrisesunset.dto.Location;
-import com.reedell.sunrisesunset.util.BaseTestCase;
-import com.reedell.sunrisesunset.util.CSVTestDriver;
+import com.luckycatlabs.sunrisesunset.SunriseSunsetCalculator;
+import com.luckycatlabs.sunrisesunset.dto.Location;
+import com.luckycatlabs.sunrisesunset.util.BaseTestCase;
+import com.luckycatlabs.sunrisesunset.util.CSVTestDriver;
 
 public class SunriseSunsetDataTest extends BaseTestCase {
     private static CSVTestDriver driver;

@@ -1,10 +1,10 @@
-package com.reedell.sunrisesunset.util;
+package com.luckycatlabs.sunrisesunset.util;
 
 import java.util.Calendar;
 
 import org.junit.Assert;
 
-import com.reedell.sunrisesunset.dto.Location;
+import com.luckycatlabs.sunrisesunset.dto.Location;
 
 public class BaseTestCase {
 

@@ -1,12 +1,13 @@
-package com.reedell.sunrisesunset.calculator;
+package com.luckycatlabs.sunrisesunset.calculator;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import com.reedell.sunrisesunset.Zenith;
-import com.reedell.sunrisesunset.util.BaseTestCase;
+import com.luckycatlabs.sunrisesunset.Zenith;
+import com.luckycatlabs.sunrisesunset.calculator.SolarEventCalculator;
+import com.luckycatlabs.sunrisesunset.util.BaseTestCase;
 
 public class SolarEventCalculatorTest extends BaseTestCase {
 

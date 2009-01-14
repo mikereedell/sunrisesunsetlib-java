@@ -1,12 +1,12 @@
-package com.reedell.sunrisesunset.calculator;
+package com.luckycatlabs.sunrisesunset.calculator;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Calendar;
 import java.util.TimeZone;
 
-import com.reedell.sunrisesunset.Zenith;
-import com.reedell.sunrisesunset.dto.Location;
+import com.luckycatlabs.sunrisesunset.Zenith;
+import com.luckycatlabs.sunrisesunset.dto.Location;
 
 /**
  * Parent class of the Sunrise and Sunset calculator classes.

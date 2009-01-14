@@ -19,7 +19,7 @@
 	<target name="compile" description="Cleanly compiles the sunrisesunset lib.">
 		<antcall target="cleanbuilddir" />
 		<mkdir dir="${build-dir}/test" />
-		<javac srcdir="${src-dir}" destdir="${build-dir}" fork="true" source="1.6" target="1.6" />
+		<javac srcdir="${src-dir}" destdir="${build-dir}" fork="true" />
 	</target>
 
 	<target name="package" description="Packages the compiled code into a jar file.">
@@ -31,7 +31,7 @@
 			<pathelement path="${dist-dir}/SunriseSunsetLib.jar" />
 			<pathelement path="lib/junit-4.3.1.jar" />
 		</path>
-		<javac srcdir="${test-dir}" destdir="${build-dir}/test" classpathref="test.class.path" source="1.5" target="1.5" />
+		<javac srcdir="${test-dir}" destdir="${build-dir}/test" classpathref="test.class.path" />
 		<jar destfile="${dist-dir}/SunriseSunsetLibTest.jar" basedir="${build-dir}/test/" />
 
 		<junit printsummary="withOutAndErr" showoutput="yes" haltonfailure="yes" fork="true" forkmode="once">

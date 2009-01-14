@@ -1,9 +1,10 @@
-package com.reedell.sunrisesunset;
+package com.luckycatlabs.sunrisesunset;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import com.reedell.sunrisesunset.util.BaseTestCase;
+import com.luckycatlabs.sunrisesunset.SunriseSunsetCalculator;
+import com.luckycatlabs.sunrisesunset.util.BaseTestCase;
 
 /**
  * Unit test for the SunriseSunsetCalculator class.
