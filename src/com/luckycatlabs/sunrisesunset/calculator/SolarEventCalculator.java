@@ -16,17 +16,6 @@ public class SolarEventCalculator {
     private TimeZone timeZone;
 
     /**
-     * Constructs a new <code>SolarEventCalculator</code> using given location.
-     * 
-     * @param location
-     *            <code>Location</code> of the place where the solar event should be calculated from.
-     */
-    public SolarEventCalculator(Location location) {
-        this.location = location;
-        this.timeZone = TimeZone.getDefault();
-    }
-
-    /**
      * Constructs a new <code>SolarEventCalculator</code> using the given parameters.
      * 
      * @param location
@@ -69,12 +58,17 @@ public class SolarEventCalculator {
     }
 
     private String computeSolarEventTime(Zenith solarZenith, Calendar date, boolean isSunrise) {
-        date.setTimeZone(timeZone);
+        date.setTimeZone(this.timeZone);
         BigDecimal longitudeHour = getLongitudeHour(date, isSunrise);
 
         BigDecimal meanAnomaly = getMeanAnomaly(longitudeHour);
         BigDecimal sunTrueLong = getSunTrueLongitude(meanAnomaly);
-        BigDecimal sunLocalHour = getSunLocalHour(sunTrueLong, solarZenith, isSunrise);
+        BigDecimal cosineSunLocalHour = getCosineSunLocalHour(sunTrueLong, solarZenith);
+        if ((cosineSunLocalHour.doubleValue() < -1.0) || (cosineSunLocalHour.doubleValue() > 1.0)) {
+            return "99:99";
+        }
+
+        BigDecimal sunLocalHour = getSunLocalHour(cosineSunLocalHour, isSunrise);
         BigDecimal localMeanTime = getLocalMeanTime(sunTrueLong, longitudeHour, sunLocalHour);
         BigDecimal localTime = getLocalTime(localMeanTime, date);
         return getLocalTimeAsString(localTime);
@@ -199,8 +193,8 @@ public class SolarEventCalculator {
         return setScale(cosDeclination);
     }
 
-    private BigDecimal getSunLocalHour(BigDecimal sunTrueLong, Zenith zenith, Boolean isSunrise) {
-        BigDecimal arcCosineOfCosineHourAngle = getArcCosineFor(getCosineSunLocalHour(sunTrueLong, zenith));
+    private BigDecimal getSunLocalHour(BigDecimal cosineSunLocalHour, Boolean isSunrise) {
+        BigDecimal arcCosineOfCosineHourAngle = getArcCosineFor(cosineSunLocalHour);
         BigDecimal localHour = convertRadiansToDegrees(arcCosineOfCosineHourAngle);
         if (isSunrise) {
             localHour = BigDecimal.valueOf(360).subtract(localHour);
@@ -230,11 +224,14 @@ public class SolarEventCalculator {
     }
 
     private BigDecimal adjustForDST(BigDecimal localMeanTime, Calendar date) {
-        TimeZone timeZone = date.getTimeZone();
+        BigDecimal localTime = localMeanTime;
         if (timeZone.inDaylightTime(date.getTime())) {
-            localMeanTime = localMeanTime.add(BigDecimal.ONE);
+            localTime = localTime.add(BigDecimal.ONE);
         }
-        return localMeanTime;
+        if (localTime.doubleValue() > 24.0) {
+            localTime = localTime.subtract(BigDecimal.valueOf(24));
+        }
+        return localTime;
     }
 
     /**

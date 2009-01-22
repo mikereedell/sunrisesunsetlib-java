@@ -3,7 +3,6 @@ package com.luckycatlabs.sunrisesunset;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.luckycatlabs.sunrisesunset.SunriseSunsetCalculator;
 import com.luckycatlabs.sunrisesunset.util.BaseTestCase;
 
 /**
@@ -17,7 +16,7 @@ public class SunriseSunsetTest extends BaseTestCase {
     public void setup() {
         // November 1, 2008
         super.setup(10, 1, 2008);
-        calc = new SunriseSunsetCalculator(location);
+        calc = new SunriseSunsetCalculator(location, "America/New_York");
     }
 
     @Test

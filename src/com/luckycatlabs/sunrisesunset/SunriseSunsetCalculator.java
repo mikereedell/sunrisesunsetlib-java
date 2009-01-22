@@ -20,20 +20,10 @@ public class SunriseSunsetCalculator {
      * @param location
      *            <code>Location</code> object containing the Latitude/Longitude of the location to compute
      *            the sunrise/sunset for.
-     */
-    public SunriseSunsetCalculator(Location location) {
-        this.calculator = new SolarEventCalculator(location);
-    }
-
-    /**
-     * Constructs a new <code>SunriseSunsetCalculator</code> with the given <code>Location</code>
-     * 
-     * @param location
-     *            <code>Location</code> object containing the Latitude/Longitude of the location to compute
-     *            the sunrise/sunset for.
      * @param timeZoneIdentifier
      *            String identifier for the timezone to compute the sunrise/sunset times in. In the form
-     *            "America/New_York".
+     *            "America/New_York". Please see the zi directory under the JDK installation for supported
+     *            time zones.
      */
     public SunriseSunsetCalculator(Location location, String timeZoneIdentifier) {
         this.calculator = new SolarEventCalculator(location, timeZoneIdentifier);

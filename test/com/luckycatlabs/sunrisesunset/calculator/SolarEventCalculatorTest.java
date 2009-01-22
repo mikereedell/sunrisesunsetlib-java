@@ -6,7 +6,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.luckycatlabs.sunrisesunset.Zenith;
-import com.luckycatlabs.sunrisesunset.calculator.SolarEventCalculator;
 import com.luckycatlabs.sunrisesunset.util.BaseTestCase;
 
 public class SolarEventCalculatorTest extends BaseTestCase {
@@ -16,7 +15,7 @@ public class SolarEventCalculatorTest extends BaseTestCase {
     @Before
     public void setupCalculator() {
         super.setup(10, 1, 2008);
-        calc = new SolarEventCalculator(location);
+        calc = new SolarEventCalculator(location, "America/New_York");
     }
 
     @Test
@@ -49,12 +48,13 @@ public class SolarEventCalculatorTest extends BaseTestCase {
      * 
      * @Test public void testGetSunTrueLongitude() { BigDecimal sunTrueLong = new BigDecimal("219.6959");
      * BigDecimal actualSunTrueLong = calc.getSunTrueLongitude(new BigDecimal("298.7585"));
-     * assertTrue(getMessage(sunTrueLong, actualSunTrueLong), sunTrueLong.compareTo(actualSunTrueLong) == 0); }
+     * assertTrue(getMessage(sunTrueLong, actualSunTrueLong), sunTrueLong.compareTo(actualSunTrueLong) == 0);
+     * }
      * 
      * @Test public void testGetLocalMeanTime() { BigDecimal localMeanTime = new BigDecimal("6.0302");
      * BigDecimal actualLocalMeanTime = calc.getLocalMeanTime(new BigDecimal("219.6959"));
-     * assertTrue(getMessage(localMeanTime, actualLocalMeanTime), localMeanTime.compareTo(actualLocalMeanTime) ==
-     * 0); }
+     * assertTrue(getMessage(localMeanTime, actualLocalMeanTime), localMeanTime.compareTo(actualLocalMeanTime)
+     * == 0); }
      * 
      * @Test public void testGetLocalTime() { BigDecimal localTime = new BigDecimal("6.0825"); BigDecimal
      * actualLocalTime = calc.getLocalTime(new BigDecimal("6.0302")); assertTrue(getMessage(localTime,
@@ -69,8 +69,7 @@ public class SolarEventCalculatorTest extends BaseTestCase {
      * 
      * @Test public void testConvertRadiansToDegrees() { BigDecimal one = BigDecimal.valueOf(1); BigDecimal
      * degree = calc.convertRadiansToDegrees(BigDecimal.valueOf(Math.PI / 180)); assertTrue(getMessage(one,
-     * degree), one.compareTo(degree) == 0);
-     *  }
+     * degree), one.compareTo(degree) == 0); }
      * 
      * @Test public void testConvertDegreesToRadians() { BigDecimal one = BigDecimal.valueOf(1); BigDecimal
      * radian = calc.convertDegreesToRadians(BigDecimal.valueOf(180 / Math.PI)); assertTrue(getMessage(one,

@@ -1,6 +1,7 @@
 package com.luckycatlabs.sunrisesunset.util;
 
 import java.util.Calendar;
+import java.util.TimeZone;
 
 import org.junit.Assert;
 
@@ -13,11 +14,16 @@ public class BaseTestCase {
     protected Location location;
 
     public void setup(int month, int day, int year) {
+        this.setup(month, day, year, "39.9937", "-75.7850", "America/New_York");
+    }
+
+    public void setup(int month, int day, int year, String longitude, String latitude, String timeZoneIdentifier) {
         eventDate = Calendar.getInstance();
         eventDate.set(Calendar.YEAR, year);
         eventDate.set(Calendar.MONTH, month);
         eventDate.set(Calendar.DAY_OF_MONTH, day);
-        location = new Location("39.9937", "-75.7850");
+        eventDate.setTimeZone(TimeZone.getTimeZone(timeZoneIdentifier));
+        location = new Location(longitude, latitude);
     }
 
     /**
