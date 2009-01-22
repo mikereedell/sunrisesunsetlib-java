@@ -7,6 +7,7 @@
 	<property name="dist-dir" value="dist" />
 	<property name="src-dir" value="src" />
 	<property name="test-dir" value="test" />
+	<property name="docs-dir" value="docs" />
 
 	<target name="all" description="Compiles, packages, unit test and generate javadoc">
 		<antcall target="clean" />
@@ -52,6 +53,21 @@
 	</target>
 
 	<target name="javadoc" description="Generate javadoc">
+		<mkdir dir="${docs-dir}/api" />
+		<delete includeemptydirs="true" failonerror="false">
+			<fileset dir="${docs-dir}/api" includes="*.*" />
+		</delete>
+		
+		<javadoc packagenames="com.luckycatlabs.sunrisesunset.*"
+			defaultexcludes="yes"
+			destdir="${docs-dir}/api"
+			version="true"
+			windowtitle="LuckyCatLabs - Sunrise Sunset Lib API">
+			
+			<fileset dir="${src-dir}" defaultexcludes="yes">
+				<include name="com/luckycatlabs/sunrisesunset/**" />
+			</fileset>
+		</javadoc>
 	</target>
 
 	<target name="clean" description="Cleans the build and dist directories.">
