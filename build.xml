@@ -40,7 +40,7 @@
 	</target>
 
 	<target name="package" description="Packages the compiled code into a jar file.">
-		<jar destfile="${dist-dir}/SunriseSunsetLib.jar">
+		<jar destfile="${dist-dir}/SunriseSunsetLib-bin.jar">
 			<fileset dir="${build-dir}" includes="**/*.class"/>
 			<fileset dir="." includes="LICENSE"/>
 		    <manifest>
@@ -50,11 +50,22 @@
 		      <attribute name="Implementation-Version" value="1.0"/>
 		    </manifest>
 		</jar>
+		
+		<jar destfile="${dist-dir}/SunriseSunsetLib-src.jar">
+			<fileset dir="${src-dir}" includes="**/*.java"/>
+			<fileset dir="." includes="LICENSE"/>
+			<manifest>
+		      <attribute name="Built-By" value="${user.name}"/>
+		      <attribute name="Implementation-Vendor" value="LuckyCatLabs"/>
+		      <attribute name="Implementation-Title" value="SunriseSunsetCalculatorLib"/>
+		      <attribute name="Implementation-Version" value="1.0"/>				
+			</manifest>
+		</jar>
 	</target>
 
 	<target name="unittest" description="Run the JUnit tests.">
 		<path id="test.class.path">
-			<pathelement path="${dist-dir}/SunriseSunsetLib.jar" />
+			<pathelement path="${dist-dir}/SunriseSunsetLib-bin.jar" />
 			<pathelement path="lib/junit-4.3.1.jar" />
 		</path>
 		<javac srcdir="${test-dir}" destdir="${build-dir}/test" classpathref="test.class.path" />
@@ -62,7 +73,7 @@
 
 		<junit printsummary="withOutAndErr" showoutput="yes" haltonfailure="yes" fork="true" forkmode="once">
 			<classpath>
-				<pathelement location="${dist-dir}/SunriseSunsetLib.jar" />
+				<pathelement location="${dist-dir}/SunriseSunsetLib-bin.jar" />
 				<pathelement location="lib/junit-4.3.1.jar" />
 				<pathelement location="${dist-dir}/SunriseSunsetLibTest.jar" />
 			</classpath>
