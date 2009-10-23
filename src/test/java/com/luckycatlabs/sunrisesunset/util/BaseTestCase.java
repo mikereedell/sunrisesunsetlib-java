@@ -16,10 +16,13 @@
 
 package com.luckycatlabs.sunrisesunset.util;
 
+import static org.junit.Assert.assertTrue;
+
 import java.util.Calendar;
 import java.util.TimeZone;
 
 import org.junit.Assert;
+import org.junit.Test;
 
 import com.luckycatlabs.sunrisesunset.dto.Location;
 
@@ -40,6 +43,11 @@ public class BaseTestCase {
         eventDate.set(Calendar.DAY_OF_MONTH, day);
         eventDate.setTimeZone(TimeZone.getTimeZone(timeZoneIdentifier));
         location = new Location(longitude, latitude);
+    }
+
+    @Test
+    public void testTrue() {
+        assertTrue(true);
     }
 
     /**

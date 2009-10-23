@@ -24,7 +24,7 @@ import com.luckycatlabs.sunrisesunset.util.BaseTestCase;
 /**
  * Unit test for the SunriseSunsetCalculator class.
  */
-public class SunriseSunsetTest extends BaseTestCase {
+public class SunriseSunsetCalculatorTest extends BaseTestCase {
 
     private SunriseSunsetCalculator calc;
 
