@@ -118,7 +118,7 @@ public class SunriseSunsetCalculator {
      *            <code>Calendar</code> object containing the date to compute the official sunrise for.
      * @return the official sunrise time in HH:MM (24-hour clock) form.
      */
-    public String getOfficalSunriseForDate(Calendar date) {
+    public String getOfficialSunriseForDate(Calendar date) {
         return calculator.computeSunriseTime(Zenith.OFFICIAL, date);
     }
 
