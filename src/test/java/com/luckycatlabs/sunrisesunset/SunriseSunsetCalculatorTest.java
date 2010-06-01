@@ -67,7 +67,7 @@ public class SunriseSunsetCalculatorTest extends BaseTestCase {
 
     @Test
     public void testComputeOfficialSunrise() {
-        assertTimeEquals("07:33", calc.getOfficalSunriseForDate(eventDate), eventDate.getTime().toString());
+        assertTimeEquals("07:33", calc.getOfficialSunriseForDate(eventDate), eventDate.getTime().toString());
     }
 
     @Test

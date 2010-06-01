@@ -24,7 +24,6 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.luckycatlabs.sunrisesunset.SunriseSunsetCalculator;
 import com.luckycatlabs.sunrisesunset.dto.Location;
 import com.luckycatlabs.sunrisesunset.util.BaseTestCase;
 import com.luckycatlabs.sunrisesunset.util.CSVTestDriver;
@@ -61,7 +60,7 @@ public class SunriseSunsetDataTest extends BaseTestCase {
                 assertTimeEquals(line[8], calc.getAstronomicalSunsetForDate(calendar), date);
                 assertTimeEquals(line[2], calc.getNauticalSunriseForDate(calendar), date);
                 assertTimeEquals(line[7], calc.getNauticalSunsetForDate(calendar), date);
-                assertTimeEquals(line[4], calc.getOfficalSunriseForDate(calendar), date);
+                assertTimeEquals(line[4], calc.getOfficialSunriseForDate(calendar), date);
                 assertTimeEquals(line[5], calc.getOfficialSunsetForDate(calendar), date);
                 assertTimeEquals(line[3], calc.getCivilSunriseForDate(calendar), date);
                 assertTimeEquals(line[6], calc.getCivilSunsetForDate(calendar), date);
