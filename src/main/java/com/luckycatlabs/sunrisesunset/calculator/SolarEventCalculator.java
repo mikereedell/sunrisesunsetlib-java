@@ -56,7 +56,20 @@ public class SolarEventCalculator {
      *         date.
      */
     public String computeSunriseTime(Zenith solarZenith, Calendar date) {
-        return computeSolarEventTime(solarZenith, date, true);
+        return getLocalTimeAsString(computeSolarEventTime(solarZenith, date, true));
+    }
+
+    /**
+     * Computes the sunrise time for the given zenith at the given date.
+     * 
+     * @param solarZenith
+     *            <code>Zenith</code> enum corresponding to the type of sunrise to compute.
+     * @param date
+     *            <code>Calendar</code> object representing the date to compute the sunrise for.
+     * @return the sunrise time as a calendar or null for no sunrise
+     */
+    public Calendar computeSunriseCalendar(Zenith solarZenith, Calendar date) {
+        return getLocalTimeAsCalendar(computeSolarEventTime(solarZenith, date, true), date);
     }
 
     /**
@@ -70,10 +83,22 @@ public class SolarEventCalculator {
      *         date.
      */
     public String computeSunsetTime(Zenith solarZenith, Calendar date) {
-        return computeSolarEventTime(solarZenith, date, false);
+        return getLocalTimeAsString(computeSolarEventTime(solarZenith, date, false));
+    }
+    /**
+     * Computes the sunset time for the given zenith at the given date.
+     * 
+     * @param solarZenith
+     *            <code>Zenith</code> enum corresponding to the type of sunset to compute.
+     * @param date
+     *            <code>Calendar</code> object representing the date to compute the sunset for.
+     * @return the sunset time as a Calendar or null for no sunset.
+     */
+    public Calendar computeSunsetCalendar(Zenith solarZenith, Calendar date) {
+        return getLocalTimeAsCalendar(computeSolarEventTime(solarZenith, date, false), date);
     }
 
-    private String computeSolarEventTime(Zenith solarZenith, Calendar date, boolean isSunrise) {
+    private BigDecimal computeSolarEventTime(Zenith solarZenith, Calendar date, boolean isSunrise) {
         date.setTimeZone(this.timeZone);
         BigDecimal longitudeHour = getLongitudeHour(date, isSunrise);
 
@@ -81,13 +106,13 @@ public class SolarEventCalculator {
         BigDecimal sunTrueLong = getSunTrueLongitude(meanAnomaly);
         BigDecimal cosineSunLocalHour = getCosineSunLocalHour(sunTrueLong, solarZenith);
         if ((cosineSunLocalHour.doubleValue() < -1.0) || (cosineSunLocalHour.doubleValue() > 1.0)) {
-            return "99:99";
+            return null;
         }
 
         BigDecimal sunLocalHour = getSunLocalHour(cosineSunLocalHour, isSunrise);
         BigDecimal localMeanTime = getLocalMeanTime(sunTrueLong, longitudeHour, sunLocalHour);
         BigDecimal localTime = getLocalTime(localMeanTime, date);
-        return getLocalTimeAsString(localTime);
+        return localTime;
     }
 
     /**
@@ -258,6 +283,8 @@ public class SolarEventCalculator {
      * @return <code>String</code> representation of the local rise/set time in HH:MM format.
      */
     private String getLocalTimeAsString(BigDecimal localTime) {
+        if (localTime == null)
+            return "99:99";
         String[] timeComponents = localTime.toPlainString().split("\\.");
         int hour = Integer.parseInt(timeComponents[0]);
 
@@ -271,6 +298,36 @@ public class SolarEventCalculator {
         String minuteString = minutes.intValue() < 10 ? "0" + minutes.toPlainString() : minutes.toPlainString();
         String hourString = (hour < 10) ? "0" + String.valueOf(hour) : String.valueOf(hour);
         return hourString + ":" + minuteString;
+    }
+
+    /**
+     * Returns the local rise/set time in the form HH:MM.
+     * 
+     * @param localTime
+     *            <code>BigDecimal</code> representation of the local rise/set time.
+     * @return <code>Calendar</code> representation of the local time as a calendar, or null for none.
+     */
+    private Calendar getLocalTimeAsCalendar(BigDecimal localTime, Calendar date) {
+        if (localTime == null)
+            return null;
+        String[] timeComponents = localTime.toPlainString().split("\\.");
+        int hour = Integer.parseInt(timeComponents[0]);
+
+        BigDecimal minutes = new BigDecimal("0." + timeComponents[1]);
+        minutes = minutes.multiply(BigDecimal.valueOf(60)).setScale(0, RoundingMode.HALF_EVEN);
+        if (minutes.intValue() == 60) {
+            minutes = BigDecimal.ZERO;
+            hour += 1;
+        }
+
+        // Create a clone of the input calendar so we get locale/timezone information.
+        Calendar resultTime = (Calendar)date.clone();
+        // Set the local time
+        resultTime.set(Calendar.HOUR_OF_DAY, hour);
+        resultTime.set(Calendar.MINUTE, minutes.intValue());
+        resultTime.set(Calendar.SECOND, 0);
+
+        return resultTime;
     }
 
     /** ******* UTILITY METHODS (Should probably go somewhere else. ***************** */

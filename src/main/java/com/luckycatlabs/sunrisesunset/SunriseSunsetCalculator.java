@@ -57,6 +57,17 @@ public class SunriseSunsetCalculator {
     }
 
     /**
+     * Returns the astronomical (108deg) sunrise for the given date.
+     * 
+     * @param date
+     *            <code>Calendar</code> object containing the date to compute the astronomical sunrise for.
+     * @return the astronomical sunrise time as a Calendar
+     */
+    public Calendar getAstronomicalSunriseCalendarForDate(Calendar date) {
+        return calculator.computeSunriseCalendar(Zenith.ASTRONOMICAL, date);
+    }
+
+    /**
      * Returns the astronomical (108deg) sunset for the given date.
      * 
      * @param date
@@ -65,6 +76,17 @@ public class SunriseSunsetCalculator {
      */
     public String getAstronomicalSunsetForDate(Calendar date) {
         return calculator.computeSunsetTime(Zenith.ASTRONOMICAL, date);
+    }
+
+    /**
+     * Returns the astronomical (108deg) sunset for the given date.
+     * 
+     * @param date
+     *            <code>Calendar</code> object containing the date to compute the astronomical sunset for.
+     * @return the astronomical sunset time as a Calendar
+     */
+    public Calendar getAstronomicalSunsetCalendarForDate(Calendar date) {
+        return calculator.computeSunsetCalendar(Zenith.ASTRONOMICAL, date);
     }
 
     /**
@@ -79,6 +101,17 @@ public class SunriseSunsetCalculator {
     }
 
     /**
+     * Returns the nautical (102deg) sunrise for the given date.
+     * 
+     * @param date
+     *            <code>Calendar</code> object containing the date to compute the nautical sunrise for.
+     * @return the nautical sunrise time as a Calendar
+     */
+    public Calendar getNauticalSunriseCalendarForDate(Calendar date) {
+        return calculator.computeSunriseCalendar(Zenith.NAUTICAL, date);
+    }
+
+    /**
      * Returns the nautical (102deg) sunset for the given date.
      * 
      * @param date
@@ -87,6 +120,17 @@ public class SunriseSunsetCalculator {
      */
     public String getNauticalSunsetForDate(Calendar date) {
         return calculator.computeSunsetTime(Zenith.NAUTICAL, date);
+    }
+
+    /**
+     * Returns the nautical (102deg) sunset for the given date.
+     * 
+     * @param date
+     *            <code>Calendar</code> object containing the date to compute the nautical sunset for.
+     * @return the nautical sunset time as a Calendar
+     */
+    public Calendar getNauticalSunsetCalendarForDate(Calendar date) {
+        return calculator.computeSunsetCalendar(Zenith.NAUTICAL, date);
     }
 
     /**
@@ -101,6 +145,17 @@ public class SunriseSunsetCalculator {
     }
 
     /**
+     * Returns the civil sunrise (twilight, 96deg) for the given date.
+     * 
+     * @param date
+     *            <code>Calendar</code> object containing the date to compute the civil sunrise for.
+     * @return the civil sunrise time as a Calendar
+     */
+    public Calendar getCivilSunriseCalendarForDate(Calendar date) {
+        return calculator.computeSunriseCalendar(Zenith.CIVIL, date);
+    }
+
+    /**
      * Returns the civil sunset (twilight, 96deg) for the given date.
      * 
      * @param date
@@ -109,6 +164,17 @@ public class SunriseSunsetCalculator {
      */
     public String getCivilSunsetForDate(Calendar date) {
         return calculator.computeSunsetTime(Zenith.CIVIL, date);
+    }
+
+    /**
+     * Returns the civil sunset (twilight, 96deg) for the given date.
+     * 
+     * @param date
+     *            <code>Calendar</code> object containing the date to compute the civil sunset for.
+     * @return the civil sunset time as a Calendar
+     */
+    public Calendar getCivilSunsetCalendarForDate(Calendar date) {
+        return calculator.computeSunsetCalendar(Zenith.CIVIL, date);
     }
 
     /**
@@ -126,11 +192,33 @@ public class SunriseSunsetCalculator {
      * Returns the official sunrise (90deg 50', 90.8333deg) for the given date.
      * 
      * @param date
+     *            <code>Calendar</code> object containing the date to compute the official sunrise for.
+     * @return the official sunrise time as a Calendar
+     */
+    public Calendar getOfficialSunriseCalendarForDate(Calendar date) {
+        return calculator.computeSunriseCalendar(Zenith.OFFICIAL, date);
+    }
+
+    /**
+     * Returns the official sunrise (90deg 50', 90.8333deg) for the given date.
+     * 
+     * @param date
      *            <code>Calendar</code> object containing the date to compute the official sunset for.
      * @return the official sunset time in HH:MM (24-hour clock) form.
      */
     public String getOfficialSunsetForDate(Calendar date) {
         return calculator.computeSunsetTime(Zenith.OFFICIAL, date);
+    }
+
+    /**
+     * Returns the official sunrise (90deg 50', 90.8333deg) for the given date.
+     * 
+     * @param date
+     *            <code>Calendar</code> object containing the date to compute the official sunset for.
+     * @return the official sunset time as a Calendar
+     */
+    public Calendar getOfficialSunsetCalendarForDate(Calendar date) {
+        return calculator.computeSunsetCalendar(Zenith.OFFICIAL, date);
     }
 
     /**
