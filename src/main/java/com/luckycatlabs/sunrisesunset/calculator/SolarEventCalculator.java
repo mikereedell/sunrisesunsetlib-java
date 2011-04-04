@@ -28,8 +28,8 @@ import com.luckycatlabs.sunrisesunset.dto.Location;
  * Parent class of the Sunrise and Sunset calculator classes.
  */
 public class SolarEventCalculator {
-    private Location location;
-    private TimeZone timeZone;
+    final private Location location;
+    final private TimeZone timeZone;
 
     /**
      * Constructs a new <code>SolarEventCalculator</code> using the given parameters.
@@ -43,6 +43,19 @@ public class SolarEventCalculator {
     public SolarEventCalculator(Location location, String timeZoneIdentifier) {
         this.location = location;
         this.timeZone = TimeZone.getTimeZone(timeZoneIdentifier);
+    }
+
+    /**
+     * Constructs a new <code>SolarEventCalculator</code> using the given parameters.
+     * 
+     * @param location
+     *            <code>Location</code> of the place where the solar event should be calculated from.
+     * @param timeZone
+     *            timezone of the location parameter.
+     */
+    public SolarEventCalculator(Location location, TimeZone timeZone) {
+        this.location = location;
+        this.timeZone = timeZone;
     }
 
     /**

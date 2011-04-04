@@ -17,6 +17,7 @@
 package com.luckycatlabs.sunrisesunset;
 
 import java.util.Calendar;
+import java.util.TimeZone;
 
 import com.luckycatlabs.sunrisesunset.calculator.SolarEventCalculator;
 import com.luckycatlabs.sunrisesunset.dto.Location;
@@ -43,6 +44,18 @@ public class SunriseSunsetCalculator {
      */
     public SunriseSunsetCalculator(Location location, String timeZoneIdentifier) {
         this.calculator = new SolarEventCalculator(location, timeZoneIdentifier);
+    }
+    /**
+     * Constructs a new <code>SunriseSunsetCalculator</code> with the given <code>Location</code>
+     * 
+     * @param location
+     *            <code>Location</code> object containing the Latitude/Longitude of the location to compute
+     *            the sunrise/sunset for.
+     * @param timeZone
+     *            timezone to compute the sunrise/sunset times in.
+     */
+    public SunriseSunsetCalculator(Location location, TimeZone timeZone) {
+        this.calculator = new SolarEventCalculator(location, timeZone);
     }
 
     /**
