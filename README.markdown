@@ -16,10 +16,12 @@ Download the jar or clone the repo and run $ mvn clean install to build from sou
 Usage
 -----
 Create a SunriseSunsetCalculator with a location and time zone identifier:
+
     Location location = new Location("39.9522222", "-75.1641667");
     SunriseSunsetCalculator calculator = SunriseSunsetCalculator(location, "America/New_York");
 
-Then call the method for the type of sunrise/sunset you want to calculate.
+Then call the method for the type of sunrise/sunset you want to calculate:
+
     String officialSunrise = calculator.getOfficialSunriseForDate(Calendar.getInstance());
 		Calendar officialSunset = calculator.getOfficialSunsetCalendarForDate(Calendar.getInstance());
 
