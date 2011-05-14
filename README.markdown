@@ -23,13 +23,13 @@ Create a SunriseSunsetCalculator with a location and time zone identifier:
 Then call the method for the type of sunrise/sunset you want to calculate:
 
     String officialSunrise = calculator.getOfficialSunriseForDate(Calendar.getInstance());
-		Calendar officialSunset = calculator.getOfficialSunsetCalendarForDate(Calendar.getInstance());
+    Calendar officialSunset = calculator.getOfficialSunsetCalendarForDate(Calendar.getInstance());
 
 Author
 ------
 Mike Reedell
 
-![Click here to lend your support to: Open Source Contributions and make a donation at www.pledgie.com !](http://www.pledgie.com/campaigns/15328.png?skin_name=chrome)
+!['Click here to lend your support to: Open Source Contributions and make a donation at www.pledgie.com !']('http://www.pledgie.com/campaigns/15328.png?skin_name=chrome')
 
 License
 -------
