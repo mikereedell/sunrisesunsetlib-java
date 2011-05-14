@@ -29,7 +29,7 @@ Author
 ------
 Mike Reedell
 
-!['Click here to lend your support to: Open Source Contributions and make a donation at www.pledgie.com !']('http://www.pledgie.com/campaigns/15328.png?skin_name=chrome')
+![Click here to lend your support to: Open Source Contributions and make a donation at www.pledgie.com !](http://www.pledgie.com/campaigns/15328.png?skin_name=chrome "")
 
 License
 -------
