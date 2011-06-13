@@ -45,6 +45,7 @@ public class SunriseSunsetCalculator {
     public SunriseSunsetCalculator(Location location, String timeZoneIdentifier) {
         this.calculator = new SolarEventCalculator(location, timeZoneIdentifier);
     }
+
     /**
      * Constructs a new <code>SunriseSunsetCalculator</code> with the given <code>Location</code>
      * 
@@ -232,6 +233,48 @@ public class SunriseSunsetCalculator {
      */
     public Calendar getOfficialSunsetCalendarForDate(Calendar date) {
         return calculator.computeSunsetCalendar(Zenith.OFFICIAL, date);
+    }
+
+    /**
+     * Computes the sunrise for an arbitrary declination.
+     * 
+     * @param latitude
+     * @param longitude
+     *            Coordinates for the location to compute the sunrise/sunset for.
+     * @param timeZone
+     *            timezone to compute the sunrise/sunset times in.
+     * @param date
+     *            <code>Calendar</code> object containing the date to compute the official sunset for.
+     * @param degrees
+     *            Angle under the horizon for which to compute sunrise. For example, "civil sunrise"
+     *            corresponds to 6 degrees.
+     * @return the requested sunset time as a <code>Calendar</code> object.
+     */
+
+    public static Calendar getSunrise(double latitude, double longitude, TimeZone timeZone, Calendar date, double degrees) {
+        SolarEventCalculator solarEventCalculator = new SolarEventCalculator(new Location(latitude, longitude), timeZone);
+        return solarEventCalculator.computeSunriseCalendar(new Zenith(90 - degrees), date);
+    }
+
+    /**
+     * Computes the sunset for an arbitrary declination.
+     * 
+     * @param latitude
+     * @param longitude
+     *            Coordinates for the location to compute the sunrise/sunset for.
+     * @param timeZone
+     *            timezone to compute the sunrise/sunset times in.
+     * @param date
+     *            <code>Calendar</code> object containing the date to compute the official sunset for.
+     * @param degrees
+     *            Angle under the horizon for which to compute sunrise. For example, "civil sunset"
+     *            corresponds to 6 degrees.
+     * @return the requested sunset time as a <code>Calendar</code> object.
+     */
+
+    public static Calendar getSunset(double latitude, double longitude, TimeZone timeZone, Calendar date, double degrees) {
+        SolarEventCalculator solarEventCalculator = new SolarEventCalculator(new Location(latitude, longitude), timeZone);
+        return solarEventCalculator.computeSunsetCalendar(new Zenith(90 - degrees), date);
     }
 
     /**

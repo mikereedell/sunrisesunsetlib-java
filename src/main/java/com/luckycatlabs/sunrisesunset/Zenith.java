@@ -19,25 +19,25 @@ package com.luckycatlabs.sunrisesunset;
 import java.math.BigDecimal;
 
 /**
- * Enumerated type that defines the available zeniths for computing the sunrise/sunset.
+ * Defines the solar declination used in computing the sunrise/sunset.
  */
-public enum Zenith {
+public class Zenith {
     /** Astronomical sunrise/set is when the sun is 18 degrees below the horizon. */
-    ASTRONOMICAL(BigDecimal.valueOf(108)),
+    public static final Zenith ASTRONOMICAL = new Zenith(108);
 
     /** Nautical sunrise/set is when the sun is 12 degrees below the horizon. */
-    NAUTICAL(BigDecimal.valueOf(102)),
+    public static final Zenith NAUTICAL = new Zenith(102);
 
     /** Civil sunrise/set (dawn/dusk) is when the sun is 6 degrees below the horizon. */
-    CIVIL(BigDecimal.valueOf(96)),
+    public static final Zenith CIVIL = new Zenith(96);
 
     /** Official sunrise/set is when the sun is 50' below the horizon. */
-    OFFICIAL(BigDecimal.valueOf(90.8333)); // 90deg, 50'
+    public static final Zenith OFFICIAL = new Zenith(90.8333);
 
     private final BigDecimal degrees;
 
-    private Zenith(BigDecimal degrees) {
-        this.degrees = degrees;
+    public Zenith(double degrees) {
+        this.degrees = BigDecimal.valueOf(degrees);
     }
 
     public BigDecimal degrees() {

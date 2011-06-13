@@ -16,18 +16,20 @@ Download the jar or clone the repo and run $ mvn clean install to build from sou
 Usage
 -----
 Create a SunriseSunsetCalculator with a location and time zone identifier:
-    Location location = new Location("39.9522222", "-75.1641667");
-    SunriseSunsetCalculator calculator = SunriseSunsetCalculator(location, "America/New_York");
 
-Then call the method for the type of sunrise/sunset you want to calculate.
+    Location location = new Location("39.9522222", "-75.1641667");
+    SunriseSunsetCalculator calculator = new SunriseSunsetCalculator(location, "America/New_York");
+
+Then call the method for the type of sunrise/sunset you want to calculate:
+
     String officialSunrise = calculator.getOfficialSunriseForDate(Calendar.getInstance());
-		Calendar officialSunset = calculator.getOfficialSunsetCalendarForDate(Calendar.getInstance());
+    Calendar officialSunset = calculator.getOfficialSunsetCalendarForDate(Calendar.getInstance());
 
 Author
 ------
 Mike Reedell
 
-<a href='http://www.pledgie.com/campaigns/15328'><img alt='Click here to lend your support to: Open Source Contributions and make a donation at www.pledgie.com !' src='http://www.pledgie.com/campaigns/15328.png?skin_name=chrome' border='0' /></a>
+[Donate with Pledgie](http://www.pledgie.com/campaigns/15328)
 
 License
 -------
