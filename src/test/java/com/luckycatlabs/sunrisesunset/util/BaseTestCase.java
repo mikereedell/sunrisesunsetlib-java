@@ -73,6 +73,9 @@ public class BaseTestCase {
 
     private int getMinutes(String timeString) {
         String[] timeParts = timeString.split("\\:");
+        if (timeParts[0].equals("00")) {
+            timeParts[0] = "24";
+        }
         return (60 * Integer.valueOf(timeParts[0])) + Integer.valueOf(timeParts[1]);
     }
 }

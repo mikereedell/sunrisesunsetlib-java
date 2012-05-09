@@ -16,9 +16,14 @@
 
 package com.luckycatlabs.sunrisesunset;
 
+import static org.junit.Assert.assertEquals;
+
+import java.util.Calendar;
+
 import org.junit.Before;
 import org.junit.Test;
 
+import com.luckycatlabs.sunrisesunset.dto.Location;
 import com.luckycatlabs.sunrisesunset.util.BaseTestCase;
 
 /**
@@ -73,5 +78,22 @@ public class SunriseSunsetCalculatorTest extends BaseTestCase {
     @Test
     public void testComputeOfficialSunset() {
         assertTimeEquals("18:00", calc.getOfficialSunsetForDate(eventDate), eventDate.getTime().toString());
+    }
+
+    @Test
+    public void testSpecificDateLocationAndTimezone() {
+        Location loc = new Location("55.03", "82.91");
+        SunriseSunsetCalculator calculator = new SunriseSunsetCalculator(loc, "GMT");
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(2012, 4, 7);
+
+        String officialSunriseForDate = calculator.getOfficialSunriseForDate(calendar);
+        assertEquals("22:35", officialSunriseForDate);
+
+        Calendar officialSunriseCalendarForDate = calculator.getOfficialSunriseCalendarForDate(calendar);
+        assertEquals(22, officialSunriseCalendarForDate.get(Calendar.HOUR_OF_DAY));
+        assertEquals(35, officialSunriseCalendarForDate.get(Calendar.MINUTE));
+        assertEquals(6, officialSunriseCalendarForDate.get(Calendar.DAY_OF_MONTH));
     }
 }

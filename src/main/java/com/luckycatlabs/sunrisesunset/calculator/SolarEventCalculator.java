@@ -98,6 +98,7 @@ public class SolarEventCalculator {
     public String computeSunsetTime(Zenith solarZenith, Calendar date) {
         return getLocalTimeAsString(computeSolarEventTime(solarZenith, date, false));
     }
+
     /**
      * Computes the sunset time for the given zenith at the given date.
      * 
@@ -174,8 +175,8 @@ public class SolarEventCalculator {
      */
     private BigDecimal getSunTrueLongitude(BigDecimal meanAnomaly) {
         BigDecimal sinMeanAnomaly = new BigDecimal(Math.sin(convertDegreesToRadians(meanAnomaly).doubleValue()));
-        BigDecimal sinDoubleMeanAnomaly = new BigDecimal(Math.sin(multiplyBy(convertDegreesToRadians(meanAnomaly),
-                BigDecimal.valueOf(2)).doubleValue()));
+        BigDecimal sinDoubleMeanAnomaly = new BigDecimal(Math.sin(multiplyBy(convertDegreesToRadians(meanAnomaly), BigDecimal.valueOf(2))
+                .doubleValue()));
 
         BigDecimal firstPart = meanAnomaly.add(multiplyBy(sinMeanAnomaly, new BigDecimal("1.916")));
         BigDecimal secondPart = multiplyBy(sinDoubleMeanAnomaly, new BigDecimal("0.020")).add(new BigDecimal("282.634"));
@@ -295,9 +296,15 @@ public class SolarEventCalculator {
      *            <code>BigDecimal</code> representation of the local rise/set time.
      * @return <code>String</code> representation of the local rise/set time in HH:MM format.
      */
-    private String getLocalTimeAsString(BigDecimal localTime) {
-        if (localTime == null)
+    private String getLocalTimeAsString(BigDecimal localTimeParam) {
+        if (localTimeParam == null) {
             return "99:99";
+        }
+
+        BigDecimal localTime = localTimeParam;
+        if (localTime.compareTo(BigDecimal.ZERO) == -1) {
+            localTime = localTime.add(BigDecimal.valueOf(24.0D));
+        }
         String[] timeComponents = localTime.toPlainString().split("\\.");
         int hour = Integer.parseInt(timeComponents[0]);
 
@@ -306,6 +313,9 @@ public class SolarEventCalculator {
         if (minutes.intValue() == 60) {
             minutes = BigDecimal.ZERO;
             hour += 1;
+        }
+        if (hour == 24) {
+            hour = 0;
         }
 
         String minuteString = minutes.intValue() < 10 ? "0" + minutes.toPlainString() : minutes.toPlainString();
@@ -316,13 +326,23 @@ public class SolarEventCalculator {
     /**
      * Returns the local rise/set time in the form HH:MM.
      * 
-     * @param localTime
+     * @param localTimeParam
      *            <code>BigDecimal</code> representation of the local rise/set time.
      * @return <code>Calendar</code> representation of the local time as a calendar, or null for none.
      */
-    private Calendar getLocalTimeAsCalendar(BigDecimal localTime, Calendar date) {
-        if (localTime == null)
+    protected Calendar getLocalTimeAsCalendar(BigDecimal localTimeParam, Calendar date) {
+        if (localTimeParam == null) {
             return null;
+        }
+
+        // Create a clone of the input calendar so we get locale/timezone information.
+        Calendar resultTime = (Calendar) date.clone();
+
+        BigDecimal localTime = localTimeParam;
+        if (localTime.compareTo(BigDecimal.ZERO) == -1) {
+            localTime = localTime.add(BigDecimal.valueOf(24.0D));
+            resultTime.add(Calendar.HOUR_OF_DAY, -24);
+        }
         String[] timeComponents = localTime.toPlainString().split("\\.");
         int hour = Integer.parseInt(timeComponents[0]);
 
@@ -332,13 +352,15 @@ public class SolarEventCalculator {
             minutes = BigDecimal.ZERO;
             hour += 1;
         }
+        if (hour == 24) {
+            hour = 0;
+        }
 
-        // Create a clone of the input calendar so we get locale/timezone information.
-        Calendar resultTime = (Calendar)date.clone();
         // Set the local time
         resultTime.set(Calendar.HOUR_OF_DAY, hour);
         resultTime.set(Calendar.MINUTE, minutes.intValue());
         resultTime.set(Calendar.SECOND, 0);
+        resultTime.setTimeZone(date.getTimeZone());
 
         return resultTime;
     }

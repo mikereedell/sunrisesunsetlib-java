@@ -18,6 +18,9 @@ package com.luckycatlabs.sunrisesunset.calculator;
 
 import static org.junit.Assert.assertEquals;
 
+import java.math.BigDecimal;
+import java.util.Calendar;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -37,12 +40,33 @@ public class SolarEventCalculatorTest extends BaseTestCase {
     @Test
     public void testComputeSunriseTime() {
         String localSunriseTime = "07:05";
-        assertEquals(localSunriseTime, calc.computeSunriseTime(Zenith.CIVIL, this.eventDate));
+        assertEquals(localSunriseTime, calc.computeSunriseTime(Zenith.CIVIL, eventDate));
     }
 
     @Test
     public void testComputeSunsetTime() {
         String localSunsetTime = "18:28";
-        assertEquals(localSunsetTime, calc.computeSunsetTime(Zenith.CIVIL, this.eventDate));
+        assertEquals(localSunsetTime, calc.computeSunsetTime(Zenith.CIVIL, eventDate));
+    }
+
+    @Test
+    public void testGetLocalTimeAsCalendar() {
+        Calendar localTime = calc.getLocalTimeAsCalendar(BigDecimal.valueOf(15.5D), Calendar.getInstance());
+        assertEquals(15, localTime.get(Calendar.HOUR_OF_DAY));
+        assertEquals(30, localTime.get(Calendar.MINUTE));
+    }
+
+    @Test
+    public void testGetLocalTimeAsCalendarForZero() {
+        Calendar localTime = calc.getLocalTimeAsCalendar(BigDecimal.valueOf(0.0D), Calendar.getInstance());
+        assertEquals(0, localTime.get(Calendar.HOUR_OF_DAY));
+        assertEquals(0, localTime.get(Calendar.MINUTE));
+    }
+
+    @Test
+    public void testGetLocalTimeAsCalendarForNegative() {
+        Calendar localTime = calc.getLocalTimeAsCalendar(BigDecimal.valueOf(-10.0D), Calendar.getInstance());
+        assertEquals(14, localTime.get(Calendar.HOUR_OF_DAY));
+        assertEquals(0, localTime.get(Calendar.MINUTE));
     }
 }
