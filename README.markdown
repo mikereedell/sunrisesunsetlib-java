@@ -25,6 +25,13 @@ Then call the method for the type of sunrise/sunset you want to calculate:
     String officialSunrise = calculator.getOfficialSunriseForDate(Calendar.getInstance());
     Calendar officialSunset = calculator.getOfficialSunsetCalendarForDate(Calendar.getInstance());
 
+Bug Reports
+-----------
+When filing a bug report, please include the following information:
+- Date sunrise/set calculation was being run for.
+- Latitude/longitute sunrise/set calculation was being run for.
+- Timezone (either "America/New_York" or GMT-0500)
+
 Author
 ------
 Mike Reedell
