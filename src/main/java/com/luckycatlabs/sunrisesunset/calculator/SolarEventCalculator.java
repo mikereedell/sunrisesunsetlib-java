@@ -360,6 +360,7 @@ public class SolarEventCalculator {
         resultTime.set(Calendar.HOUR_OF_DAY, hour);
         resultTime.set(Calendar.MINUTE, minutes.intValue());
         resultTime.set(Calendar.SECOND, 0);
+        resultTime.set(Calendar.MILLISECOND, 0);
         resultTime.setTimeZone(date.getTimeZone());
 
         return resultTime;
