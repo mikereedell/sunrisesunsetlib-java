@@ -64,4 +64,30 @@ public class Location {
     public BigDecimal getLongitude() {
         return longitude;
     }
+
+    /**
+     * Sets the coordinates of the location object.
+     *
+     * @param latitude
+     *            the latitude, in degrees, of this location. North latitude is positive, south negative.
+     * @param longitude
+     *            the longitude, in degrees, of this location. East longitude is positive, east negative.
+     */
+    public void setLocation(String latitude, String longitude) {
+        this.latitude = new BigDecimal(latitude);
+        this.longitude = new BigDecimal(longitude);
+    }
+
+    /**
+     * Sets the coordinates of the location object.
+     *
+     * @param latitude
+     *            the latitude, in degrees, of this location. North latitude is positive, south negative.
+     * @param longitude
+     *            the longitude, in degrees, of this location. East longitude is positive, east negative.
+     */
+    public void setLocation(double latitude, double longitude) {
+        this.latitude = new BigDecimal(latitude);
+        this.longitude = new BigDecimal(longitude);
+    }
 }
