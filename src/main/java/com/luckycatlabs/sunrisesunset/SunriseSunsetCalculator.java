@@ -43,6 +43,7 @@ public class SunriseSunsetCalculator {
      *            time zones.
      */
     public SunriseSunsetCalculator(Location location, String timeZoneIdentifier) {
+        this.location = location;
         this.calculator = new SolarEventCalculator(location, timeZoneIdentifier);
     }
 
@@ -56,6 +57,7 @@ public class SunriseSunsetCalculator {
      *            timezone to compute the sunrise/sunset times in.
      */
     public SunriseSunsetCalculator(Location location, TimeZone timeZone) {
+        this.location = location;
         this.calculator = new SolarEventCalculator(location, timeZone);
     }
 
