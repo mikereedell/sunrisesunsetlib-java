@@ -13,6 +13,22 @@ Installation
 ------------
 Download the jar or clone the repo and run $ mvn clean install to build from source.
 
+
+Maven
+-----
+
+You can now use Maven to pull in SunriseSunsetLib into your project, just add:
+
+```
+<dependency>
+  <groupId>com.luckycatlabs</groupId>
+  <artifactId>SunriseSunsetCalculator</artifactId>
+  <version>1.1</version>
+</dependency>
+```
+
+to your pom.xml.
+
 Usage
 -----
 Create a SunriseSunsetCalculator with a location and time zone identifier:
