@@ -4,9 +4,33 @@
   <groupId>com.luckycatlabs</groupId>
   <artifactId>SunriseSunsetCalculator</artifactId>
   <packaging>jar</packaging>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.1-SNAPSHOT</version>
   <name>SunriseSunsetCalculator</name>
-  <url>http://maven.apache.org</url>
+  <description>Libarary to compute the sunrise/sunset.</description>
+  <url>https://github.com/mikereedell/sunrisesunsetlib-java</url>
+  <parent>
+    <groupId>org.sonatype.oss</groupId>
+    <artifactId>oss-parent</artifactId>
+    <version>7</version>
+  </parent>
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  <developers>
+    <developer>
+      <name>Mike Reedell</name>
+      <email>mike@reedell.com</email>
+    </developer>
+  </developers>
+  <scm>
+    <connection>scm:git:git@github.com:mikereedell/sunrisesunsetlib-java.git</connection>
+    <developerConnection>scm:git:git@github.com:mikereedell/sunrisesunsetlib-java.git</developerConnection>
+    <url>git@github.com:mikereedell/sunrisesunsetlib-java.git</url>
+  </scm>
   <build>
 	<plugins>
 	  <plugin>
@@ -18,6 +42,20 @@
 		  <target>1.6</target>
 		</configuration>
 	  </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-gpg-plugin</artifactId>
+        <version>1.5</version>
+        <executions>
+          <execution>
+            <id>sign-artifacts</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>sign</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
 	</plugins>
   </build>
   <dependencies>
