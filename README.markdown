@@ -29,6 +29,18 @@ You can now use Maven to pull in SunriseSunsetLib into your project, just add:
 
 to your pom.xml.
 
+If you use gradle, add the following to your build.gradle file:
+
+```
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'com.luckycatlabs:SunriseSunsetCalculator:1.1'
+}
+```
+
 Usage
 -----
 Create a SunriseSunsetCalculator with a location and time zone identifier:
