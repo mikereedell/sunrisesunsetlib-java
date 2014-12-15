@@ -1,12 +1,12 @@
 /*
  * Copyright 2008-2009 Mike Reedell / LuckyCatLabs.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,6 +17,7 @@
 package com.luckycatlabs.sunrisesunset.calculator;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.Calendar;
 import java.util.TimeZone;
@@ -33,7 +34,7 @@ public class SolarEventCalculator {
 
     /**
      * Constructs a new <code>SolarEventCalculator</code> using the given parameters.
-     * 
+     *
      * @param location
      *            <code>Location</code> of the place where the solar event should be calculated from.
      * @param timeZoneIdentifier
@@ -47,7 +48,7 @@ public class SolarEventCalculator {
 
     /**
      * Constructs a new <code>SolarEventCalculator</code> using the given parameters.
-     * 
+     *
      * @param location
      *            <code>Location</code> of the place where the solar event should be calculated from.
      * @param timeZone
@@ -60,7 +61,7 @@ public class SolarEventCalculator {
 
     /**
      * Computes the sunrise time for the given zenith at the given date.
-     * 
+     *
      * @param solarZenith
      *            <code>Zenith</code> enum corresponding to the type of sunrise to compute.
      * @param date
@@ -74,7 +75,7 @@ public class SolarEventCalculator {
 
     /**
      * Computes the sunrise time for the given zenith at the given date.
-     * 
+     *
      * @param solarZenith
      *            <code>Zenith</code> enum corresponding to the type of sunrise to compute.
      * @param date
@@ -87,7 +88,7 @@ public class SolarEventCalculator {
 
     /**
      * Computes the sunset time for the given zenith at the given date.
-     * 
+     *
      * @param solarZenith
      *            <code>Zenith</code> enum corresponding to the type of sunset to compute.
      * @param date
@@ -101,7 +102,7 @@ public class SolarEventCalculator {
 
     /**
      * Computes the sunset time for the given zenith at the given date.
-     * 
+     *
      * @param solarZenith
      *            <code>Zenith</code> enum corresponding to the type of sunset to compute.
      * @param date
@@ -131,7 +132,7 @@ public class SolarEventCalculator {
 
     /**
      * Computes the base longitude hour, lngHour in the algorithm.
-     * 
+     *
      * @return the longitude of the location of the solar event divided by 15 (deg/hour), in
      *         <code>BigDecimal</code> form.
      */
@@ -141,7 +142,7 @@ public class SolarEventCalculator {
 
     /**
      * Computes the longitude time, t in the algorithm.
-     * 
+     *
      * @return longitudinal time in <code>BigDecimal</code> form.
      */
     private BigDecimal getLongitudeHour(Calendar date, Boolean isSunrise) {
@@ -157,7 +158,7 @@ public class SolarEventCalculator {
 
     /**
      * Computes the mean anomaly of the Sun, M in the algorithm.
-     * 
+     *
      * @return the suns mean anomaly, M, in <code>BigDecimal</code> form.
      */
     private BigDecimal getMeanAnomaly(BigDecimal longitudeHour) {
@@ -168,7 +169,7 @@ public class SolarEventCalculator {
     /**
      * Computes the true longitude of the sun, L in the algorithm, at the given location, adjusted to fit in
      * the range [0-360].
-     * 
+     *
      * @param meanAnomaly
      *            the suns mean anomaly.
      * @return the suns true longitude, in <code>BigDecimal</code> form.
@@ -191,7 +192,7 @@ public class SolarEventCalculator {
     /**
      * Computes the suns right ascension, RA in the algorithm, adjusting for the quadrant of L and turning it
      * into degree-hours. Will be in the range [0,360].
-     * 
+     *
      * @param sunTrueLong
      *            Suns true longitude, in <code>BigDecimal</code>
      * @return suns right ascension in degree-hours, in <code>BigDecimal</code> form.
@@ -291,7 +292,7 @@ public class SolarEventCalculator {
 
     /**
      * Returns the local rise/set time in the form HH:MM.
-     * 
+     *
      * @param localTime
      *            <code>BigDecimal</code> representation of the local rise/set time.
      * @return <code>String</code> representation of the local rise/set time in HH:MM format.
@@ -325,7 +326,7 @@ public class SolarEventCalculator {
 
     /**
      * Returns the local rise/set time in the form HH:MM.
-     * 
+     *
      * @param localTimeParam
      *            <code>BigDecimal</code> representation of the local rise/set time.
      * @return <code>Calendar</code> representation of the local time as a calendar, or null for none.
@@ -373,9 +374,9 @@ public class SolarEventCalculator {
     }
 
     private BigDecimal getUTCOffSet(Calendar date) {
-        int offSetInMillis = date.get(Calendar.ZONE_OFFSET);
-        BigDecimal offSet = new BigDecimal(offSetInMillis / 3600000);
-        return offSet.setScale(0, RoundingMode.HALF_EVEN);
+        BigDecimal offSetInMillis = new BigDecimal(date.get(Calendar.ZONE_OFFSET));
+        BigDecimal offSet = offSetInMillis.divide(new BigDecimal(3600000), new MathContext(2));
+        return offSet;
     }
 
     private BigDecimal getArcCosineFor(BigDecimal radians) {
