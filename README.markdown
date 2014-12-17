@@ -23,7 +23,7 @@ You can now use Maven to pull in SunriseSunsetLib into your project, just add:
 <dependency>
   <groupId>com.luckycatlabs</groupId>
   <artifactId>SunriseSunsetCalculator</artifactId>
-  <version>1.1</version>
+  <version>1.2</version>
 </dependency>
 ```
 
