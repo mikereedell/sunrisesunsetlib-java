@@ -37,7 +37,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.luckycatlabs:SunriseSunsetCalculator:1.1'
+    compile 'com.luckycatlabs:SunriseSunsetCalculator:1.2'
 }
 ```
 
