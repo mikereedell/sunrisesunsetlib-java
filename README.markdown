@@ -3,7 +3,7 @@ Sunrise/SunsetLib - Java
 
 Description
 -----------
-Java library to compute the local sunrise and sunset at a given latitude/longitue and date combination. Uses the algorithm found at http://williams.best.vwh.net/sunrise_sunset_algorithm.htm.
+Java library to compute the local sunrise and sunset at a given latitude/longitue and date combination. Uses the algorithm found at https://web.archive.org/web/20161202180207/http://williams.best.vwh.net/sunrise_sunset_algorithm.htm.
 
 Dependencies
 ------------
