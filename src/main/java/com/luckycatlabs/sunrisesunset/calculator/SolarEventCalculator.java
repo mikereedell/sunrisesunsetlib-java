@@ -284,9 +284,6 @@ public class SolarEventCalculator {
         if (timeZone.inDaylightTime(date.getTime())) {
             localTime = localTime.add(BigDecimal.ONE);
         }
-        if (localTime.doubleValue() > 24.0) {
-            localTime = localTime.subtract(BigDecimal.valueOf(24));
-        }
         return localTime;
     }
 
