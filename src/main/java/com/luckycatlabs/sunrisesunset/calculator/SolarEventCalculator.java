@@ -397,10 +397,10 @@ public class SolarEventCalculator {
     }
 
     private BigDecimal divideBy(BigDecimal dividend, BigDecimal divisor) {
-        return dividend.divide(divisor, 4, RoundingMode.HALF_EVEN);
+        return dividend.divide(divisor, 8, RoundingMode.HALF_EVEN);
     }
 
     private BigDecimal setScale(BigDecimal number) {
-        return number.setScale(4, RoundingMode.HALF_EVEN);
+        return number.setScale(8, RoundingMode.HALF_EVEN);
     }
 }
