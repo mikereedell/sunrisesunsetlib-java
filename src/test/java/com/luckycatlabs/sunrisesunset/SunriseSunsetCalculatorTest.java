@@ -19,6 +19,7 @@ package com.luckycatlabs.sunrisesunset;
 import static org.junit.Assert.assertEquals;
 
 import java.util.Calendar;
+import java.util.TimeZone;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -95,6 +96,20 @@ public class SunriseSunsetCalculatorTest extends BaseTestCase {
         assertEquals(22, officialSunriseCalendarForDate.get(Calendar.HOUR_OF_DAY));
         assertEquals(35, officialSunriseCalendarForDate.get(Calendar.MINUTE));
         assertEquals(6, officialSunriseCalendarForDate.get(Calendar.DAY_OF_MONTH));
+    }
+
+    @Test
+    public void testSpecificDateLocationAndTimezone2() {
+        Location erdingGermany = new Location(48.3107657, 11.8759098);
+        TimeZone timeZone = TimeZone.getTimeZone("Europe/Berlin");
+        SunriseSunsetCalculator calculator = new SunriseSunsetCalculator(erdingGermany, timeZone);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(2022, Calendar.JUNE, 21);
+
+        String resultAsString = calculator.getOfficialSunsetForDate(calendar);
+
+        assertEquals("21:17", resultAsString);
     }
 
     @Test
