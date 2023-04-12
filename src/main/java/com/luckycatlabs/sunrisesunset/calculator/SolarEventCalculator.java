@@ -29,6 +29,9 @@ import com.luckycatlabs.sunrisesunset.dto.Location;
  * Parent class of the Sunrise and Sunset calculator classes.
  */
 public class SolarEventCalculator {
+    public static final BigDecimal RADIANS_TO_DEGREES_MULTIPLIER = new BigDecimal(180 / Math.PI);
+    public static final BigDecimal DEGREES_TO_RADIANS_MULTIPLIER = BigDecimal.valueOf(Math.PI / 180.0);
+    public static final BigDecimal HOURS_IN_DAY = BigDecimal.valueOf(24.0D);
     final private Location location;
     final private TimeZone timeZone;
 
@@ -304,7 +307,7 @@ public class SolarEventCalculator {
 
         BigDecimal localTime = localTimeParam;
         if (localTime.compareTo(BigDecimal.ZERO) == -1) {
-            localTime = localTime.add(BigDecimal.valueOf(24.0D));
+            localTime = localTime.add(HOURS_IN_DAY);
         }
         String[] timeComponents = localTime.toPlainString().split("\\.");
         int hour = Integer.parseInt(timeComponents[0]);
@@ -341,7 +344,7 @@ public class SolarEventCalculator {
 
         BigDecimal localTime = localTimeParam;
         if (localTime.compareTo(BigDecimal.ZERO) == -1) {
-            localTime = localTime.add(BigDecimal.valueOf(24.0D));
+            localTime = localTime.add(HOURS_IN_DAY);
             resultTime.add(Calendar.HOUR_OF_DAY, -24);
         }
         String[] timeComponents = localTime.toPlainString().split("\\.");
@@ -385,11 +388,11 @@ public class SolarEventCalculator {
     }
 
     private BigDecimal convertRadiansToDegrees(BigDecimal radians) {
-        return multiplyBy(radians, new BigDecimal(180 / Math.PI));
+        return multiplyBy(radians, RADIANS_TO_DEGREES_MULTIPLIER);
     }
 
     private BigDecimal convertDegreesToRadians(BigDecimal degrees) {
-        return multiplyBy(degrees, BigDecimal.valueOf(Math.PI / 180.0));
+        return multiplyBy(degrees, DEGREES_TO_RADIANS_MULTIPLIER);
     }
 
     private BigDecimal multiplyBy(BigDecimal multiplicand, BigDecimal multiplier) {
